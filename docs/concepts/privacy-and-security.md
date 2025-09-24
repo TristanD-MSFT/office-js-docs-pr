@@ -1,7 +1,7 @@
----
+﻿---
 title: Privacy and security for Office Add-ins
 description: Learn about the privacy and security aspects of the Office Add-ins platform.
-ms.date: 08/19/2022
+ms.date: 07/24/2025
 ms.localizationpriority: medium
 ---
 
@@ -28,35 +28,29 @@ Further, the runtime framework provides the following benefits to ensure that an
 Also, the use of memory, CPU, and network resources by Office Add-ins is governable to ensure that good performance and reliability are maintained.
 
 > [!NOTE]
-> In some scenarios, different features of an add-in run in separate runtimes. For simplicity, this article uses the singular "runtime." For more information, see [Runtimes in Office Add-ins](../testing/runtimes.md). 
+> In some scenarios, different features of an add-in run in separate runtimes. For simplicity, this article uses the singular "runtime." For more information, see [Runtimes in Office Add-ins](../testing/runtimes.md).
 
 The following sections briefly describe how the runtime architecture supports running add-ins in Office clients on Windows-based devices, on Mac OS X devices, and in web browsers.
 
 ### Clients on Windows and OS X devices
 
-In supported clients for desktop and tablet devices, such as Excel on Windows, and Outlook on Windows and Mac, Office Add-ins are supported by integrating an in-process component, the Office Add-ins runtime, which manages the add-in lifecycle and enables interoperability between the add-in and the client application. The add-in webpage itself is hosted out-of-process. As shown in figure 1, on a Windows desktop or tablet device, [the add-in webpage is hosted inside an Internet Explorer or Microsoft Edge control](browsers-used-by-office-web-add-ins.md) which, in turn, is hosted inside an add-in runtime process that provides security and performance isolation.
+In supported clients for desktop and tablet devices, such as Excel on Windows, and Outlook on Windows (classic) and on Mac, Office Add-ins are supported by integrating an in-process component, the Office Add-ins runtime, which manages the add-in lifecycle and enables interoperability between the add-in and the client application. The add-in webpage itself is hosted out-of-process. On a Windows desktop or tablet device, [the add-in webpage is hosted inside an Internet Explorer or Microsoft Edge control](browsers-used-by-office-web-add-ins.md) which, in turn, is hosted inside an add-in runtime process that provides security and performance isolation.
 
 On Windows desktops, Protected Mode in Internet Explorer must be enabled for the Restricted Site Zone. This is typically enabled by default. If it is disabled, an [error will occur](/office/troubleshoot/office-suite-issues/apps-for-office-not-start) when you try to launch an add-in.
 
-*Figure 1. Office Add-ins runtime environment in Windows-based desktop and tablet clients*
+![Diagram of the Office Add-ins runtime environment on Windows desktop and tablet clients.](../images/dk2-agave-overview-02.png)
 
-![Diagram showing rich-client infrastructure.](../images/dk2-agave-overview-02.png)
+On a macOS desktop, the add-in web page is hosted inside a sandboxed WebKit runtime host process which helps provide similar level of security and performance protection.
 
-As shown in the following figure, on a Mac OS X desktop, the add-in web page is hosted inside a sandboxed WebKit runtime host process which helps provide similar level of security and performance protection.
-
-*Figure 2. Office Add-ins runtime environment in Mac OS X clients*
-
-![Diagram showing apps for Office runtime environment on Mac OS X.](../images/dk2-agave-overview-mac-02.png)
+![Diagram of the Office Add-ins runtime environment on macOS desktop clients.](../images/dk2-agave-overview-mac-02.png)
 
 The Office Add-ins runtime manages interprocess communication, the translation of JavaScript API calls and events into native ones, as well as UI remoting support to enable the add-in to be rendered inside the document, in a task pane, or adjacent to an email message, meeting request, or appointment.
 
 ### Web clients
 
-In supported web clients, Office Add-ins are hosted in an **iframe** that runs using the HTML5 **sandbox** attribute. ActiveX components or navigating the main page of the web client are not allowed. Office Add-ins support is enabled in the web clients by the integration of the JavaScript API for Office. In a similar way to the desktop client applications, the JavaScript API manages the add-in lifecycle and interoperability between the add-in and the web client. This interoperability is implemented by using a special cross-frame post message communication infrastructure. The same JavaScript library (Office.js) that is used on desktop clients is available to interact with the web client. The following figure shows the infrastructure that supports add-ins in Office running in the browser, and the relevant components (the web client, **iframe**, Office Add-ins runtime, and JavaScript API for Office) that are required to support them.
+In supported web clients, Office Add-ins are hosted in an **iframe** that runs using the HTML5 **sandbox** attribute. ActiveX components or navigating the main page of the web client are not allowed. Office Add-ins support is enabled in the web clients by the integration of the JavaScript API for Office. In a similar way to the desktop client applications, the JavaScript API manages the add-in lifecycle and interoperability between the add-in and the web client. This interoperability is implemented by using a special cross-frame post message communication infrastructure. The same JavaScript library (Office.js) that is used on desktop clients is available to interact with the web client. The following figure shows the infrastructure that supports add-ins in Office running in the browser, and the relevant components (the web client, **iframe**, Office Add-ins runtime, and JavaScript API for Office) required to support them.
 
-*Figure 3. Infrastructure that supports Office Add-ins in Office web clients*
-
-![Diagram showing web-client infrastructure.](../images/dk2-agave-overview-03.png)
+![Diagram of the infrastructure that supports Office Add-ins in Office on the web clients.](../images/dk2-agave-overview-03.png)
 
 ## Add-in integrity in AppSource
 
@@ -70,11 +64,20 @@ You can make your Office Add-ins available to the public by publishing them to A
 
 ## Optional connected experiences
 
-End users and IT admins can turn off [optional connected experiences in Office](/deployoffice/privacy/optional-connected-experiences) desktop and mobile clients. For Office Add-ins, the impact of disabling the **Optional connected experiences** setting is that users can no longer access add-ins or the Office Store through these clients. However, certain Microsoft add-ins that are considered essential or business-critical, and add-ins deployed by an organization's IT admin through [Centralized Deployment](/microsoft-365/admin/manage/centralized-deployment-of-add-ins) will still be available. Additionally, add-ins and the Store remain available in Outlook on the web, regardless of the status of the setting.
-
-For more about Outlook-specific behavior, see [Privacy, permissions, and security for Outlook add-ins](../outlook/privacy-and-security.md#optional-connected-experiences).
+End users and IT admins can turn off [optional connected experiences in Office](/deployoffice/privacy/optional-connected-experiences) desktop and mobile clients. For Office Add-ins, the impact of disabling the **Optional connected experiences** setting is that users can no longer access add-ins or the Microsoft 365 and Copilot store through these clients. However, certain Microsoft add-ins that are considered essential or business-critical, and add-ins deployed by an organization's IT admin through [Centralized Deployment](/microsoft-365/admin/manage/centralized-deployment-of-add-ins) will still be available. In Outlook, the availability of add-ins when the **Optional connected experiences** setting is turned off varies depending on the client. For more information, see [Optional connected experiences in Outlook](#optional-connected-experiences-in-outlook).
 
 Note that if an IT admin disables the [use of connected experiences in Office](/deployoffice/privacy/manage-privacy-controls#policy-setting-for-most-connected-experiences), it has the same effect on add-ins as turning off just optional connected experiences.
+
+### Optional connected experiences in Outlook
+
+The following table describes the availability of add-ins on Outlook clients when optional connected experiences is turned off.
+
+|Client|Behavior when optional connected experiences is turned off|
+|-----|-----|
+|<ul><li>Web browser</li><li>[new Outlook on Windows](https://support.microsoft.com/office/656bb8d9-5a60-49b2-a98b-ba7822bc7627)</li></ul>|Admin-deployed add-ins remain visible and usable. While users can still access the Microsoft 365 and Copilot store and install add-ins, these add-ins can't be used until the **Optional connected experiences** setting is turned on. Additionally, sideloaded add-ins can't be used.|
+|<ul><li>Windows (classic)</li></ul>|All add-ins remain visible and usable. However, the Microsoft 365 and Copilot store is inaccessible.|
+|<ul><li>Mac</li></ul>|Add-ins don't appear in the ribbon and the Microsoft 365 and Copilot store is inaccessible.|
+|<ul><li>Android</li><li>iOS</li></ul>|The **Get Add-ins** dialog shows only admin-deployed add-ins.|
 
 ## Addressing end users' privacy concerns
 
@@ -95,13 +98,19 @@ The add-in platform addresses end users' privacy concerns in the following ways.
 
 - When sharing a document, users also share add-ins that have been inserted in or associated with that document. If a user opens a document that contains an add-in that the user hasn't used before, the Office client application prompts the user to grant permission for the add-in to run in the document. In an organizational environment, the Office client application also prompts the user if the document comes from an external source.
 
-- Users can enable or disable the access to AppSource. For content and task pane add-ins, users manage access to trusted add-ins and catalogs from the **Trust Center** on the host Office client (opened from **File** > **Options** > **Trust Center** > **Trust Center Settings** > **Trusted Add-in Catalogs**). In Outlook, users can manage add-ins by choosing **Get Add-ins**.
+- Add-ins running in the following Office applications are blocked from accessing a user's device capabilities.
 
-  - In Outlook on Windows, select **More Apps** from the ribbon, then choose **Get Add-ins**.
-  - In Outlook on Mac, select the ellipsis button (`...`) from the ribbon, then choose **Get Add-ins**.
-  - In Outlook on the web, choose **Get Add-ins** from the ribbon.
+  - Office on the web (Excel, Outlook, PowerPoint, and Word) running in Chromium-based browsers, such as Microsoft Edge or Google Chrome
 
-  Administrators can also manage this access [by using group policy](/previous-versions/office/office-2013-resource-kit/jj219429(v=office.15)#using-group-policy-to-manage-how-users-can-install-and-use-apps-for-office).
+  - [new Outlook on Windows](https://support.microsoft.com/office/656bb8d9-5a60-49b2-a98b-ba7822bc7627)
+
+  A user's device capabilities include their camera, geolocation, and microphone. To learn more, see [View, manage, and install add-ins for Excel, PowerPoint, and Word](https://support.microsoft.com/office/16278816-1948-4028-91e5-76dca5380f8d).
+
+- Users can enable or disable the access to AppSource. For content and task pane add-ins, users manage access to trusted add-ins and catalogs from the **Trust Center** on the host Office client (opened from **File** > **Options** > **Trust Center** > **Trust Center Settings** > **Trusted Add-in Catalogs**).
+
+  In Outlook, access to manage add-ins depends on the user's Outlook client. To learn more, see [Use add-ins in Outlook](https://support.microsoft.com/office/1ee261f9-49bf-4ba6-b3e2-2ba7bcab64c8).
+
+  Administrators can also manage access to AppSource [through the admin center](/microsoft-365/admin/manage/manage-addins-in-the-admin-center).
 
 - The design of the add-in platform provides security and performance for end users in the following ways.
 
@@ -109,7 +118,31 @@ The add-in platform addresses end users' privacy concerns in the following ways.
 
   - Running in a web browser control allows the add-in to do almost anything a regular web page running in a browser can do but, at the same time, restricts the add-in to observe the same-origin policy for domain isolation and security zones.
 
-Outlook add-ins provide additional security and performance features through Outlook add-in specific resource usage monitoring. For more information, see [Privacy, permissions, and security for Outlook add-ins](../outlook/privacy-and-security.md).
+#### End users' perspective in Outlook
+
+The following points address end users' privacy concerns specific to Outlook.
+
+- End user's messages that are protected by Outlook's Information Rights Management (IRM) won't interact with add-ins in the following instances.
+
+  - When the IRM-protected message is accessed from Outlook on mobile devices.
+
+  - When the IRM-protected message contains a sensitivity label with the **Allow programmatic access** custom policy option set to `false`.
+
+  For more information on IRM support in add-ins, see [Mail items protected by IRM](../outlook/outlook-add-ins-overview.md#mail-items-protected-by-irm).
+
+- Granting the **restricted** permission allows the Outlook add-in to have limited access on only the current item. Granting the **read item** permission allows the Outlook add-in to access personal identifiable information, such as sender and recipient names and email addresses, on only the current item. For more information on Outlook add-in permissions, see [Understanding Outlook add-in permissions](../outlook/understanding-outlook-add-in-permissions.md).
+
+- Manifest files of installed Outlook add-ins are secured in the user's email account.
+
+- Outlook on Windows (classic) and on Mac monitor the performance of installed Outlook add-ins, exercise governance control, and make add-ins unavailable when they exceed limits in the following areas.
+
+  - Response time to activate
+
+  - Number of failures to activate or reactivate
+
+  - Memory usage
+
+  - CPU usage
 
 ### Developer guidelines to handle PII
 
@@ -127,15 +160,39 @@ The following lists some specific PII protection guidelines for you as a develop
 
 Follow these general guidelines to support the security model of Office Add-ins, and drill down on more details for each add-in type.
 
-### Permissions choices
+### Request the necessary permissions
 
-The add-in platform provides a permissions model that your add-in uses to declare the level of access to a user's data that it requires for its features. Each permission level corresponds to the subset of the JavaScript API for Office your add-in is allowed to use for its features. For example, the **WriteDocument** permission for content and task pane add-ins allows access to the [Document.setSelectedDataAsync](/javascript/api/office/office.document) method that lets an add-in write to the user's document, but doesn't allow access to any of the methods for reading data from the document. This permission level makes sense for add-ins that only need to write to a document, such as an add-in where the user can query for data to insert into their document.
+The add-in platform provides a permissions model that your add-in uses to declare the level of access to a user's data that it requires for its features. Each permission level corresponds to the subset of the JavaScript API for Office your add-in is allowed to use for its features. For example, the **write document** permission for content and task pane add-ins allows access to the [Document.setSelectedDataAsync](/javascript/api/office/office.document) method that lets an add-in write to the user's document, but doesn't allow access to any of the methods for reading data from the document. This permission level makes sense for add-ins that only need to write to a document, such as an add-in where the user can query for data to insert into their document.
 
-As a best practice, you should request permissions based on the principle of *least privilege*. That is, you should request permission to access only the minimum subset of the API that your add-in requires to function correctly. For example, if your add-in needs only to read data in a user's document for its features, you should request no more than the **ReadDocument** permission. (But, keep in mind that requesting insufficient permissions will result in the add-in platform blocking your add-in's use of some APIs and will generate errors at run time.)
+As a best practice, you should request permissions based on the principle of *least privilege*. That is, you should request permission to access only the minimum subset of the API that your add-in requires to function correctly. For example, if your add-in needs only to read data in a user's document for its features, you should request no more than the **read document** permission. (But, keep in mind that requesting insufficient permissions will result in the add-in platform blocking your add-in's use of some APIs and will generate errors at run time.)
 
-You specify permissions in the manifest of your add-in, as shown in the example in this section below, and end users can see the requested permission level of an add-in before they decide to install or activate the add-in for the first time. Additionally, Outlook add-ins that request the **ReadWriteMailbox** permission require explicit administrator privilege to install.
+You specify permissions in the manifest of your add-in, as shown in the example in this section below, and end users can see the requested permission level of an add-in before they decide to install or activate the add-in for the first time. Additionally, Outlook add-ins that request the **read/write mailbox** permission require explicit administrator privilege to install.
 
-The following example shows how a task pane add-in specifies the **ReadDocument** permission in its manifest. To keep permissions as the focus, other elements in the manifest aren't displayed.
+To see an example of how to request permissions in the manifest, open the tab for the type of manifest your add-in uses.
+
+# [Unified manifest for Microsoft 365](#tab/jsonmanifest)
+
+[!include[Unified manifest host application support note](../includes/unified-manifest-support-note.md)]
+
+The following example shows how a task pane add-in specifies the **read document** permission in its manifest. To keep permissions as the focus, other elements in the manifest aren't displayed.
+
+```json
+"authorization": {
+  "permissions": {
+    "resourceSpecific": [
+      ...
+      {
+        "name": "Document.Read.User",
+        "type": "Delegated"
+      },
+    ]
+  }
+}
+```
+
+# [Add-in only manifest](#tab/xmlmanifest)
+
+The following example shows how a task pane add-in specifies the **read document** permission in its manifest. To keep permissions as the focus, other elements in the manifest aren't displayed.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -144,21 +201,19 @@ The following example shows how a task pane add-in specifies the **ReadDocument*
            xmlns:ver="http://schemas.microsoft.com/office/appforoffice/1.0"
            xsi:type="TaskPaneApp">
 
-... <!-- To keep permissions as the focus, not displaying other elements. -->
-  <Permissions>ReadDocument</Permissions>
-...
+    ... <!-- To keep permissions as the focus, not displaying other elements. -->
+    <Permissions>ReadDocument</Permissions>
+    ...
 </OfficeApp>
 ```
 
+---
+
 For more information about permissions for task pane and content add-ins, see [Requesting permissions for API use in add-ins](../develop/requesting-permissions-for-api-use-in-content-and-task-pane-add-ins.md).
 
-For more information about permissions for Outlook add-ins, see the following topics.
+For more information about permissions for Outlook add-ins, see [Understanding Outlook add-in permissions](../outlook/understanding-outlook-add-in-permissions.md).
 
-- [Privacy, permissions, and security for Outlook add-ins](../outlook/privacy-and-security.md)
-
-- [Understanding Outlook add-in permissions](../outlook/understanding-outlook-add-in-permissions.md)
-
-### Same origin policy
+### Follow the same-origin policy
 
 Because Office Add-ins are webpages that run in a web browser control, they must follow the same-origin policy enforced by the browser. By default, a webpage in one domain can't make [XmlHttpRequest](https://www.w3.org/TR/XMLHttpRequest/) web service calls to another domain other than the one where it is hosted.
 
@@ -182,9 +237,9 @@ function loadVideoDetails(videoIndex) {
 
 Exchange and SharePoint provide client-side proxies to enable cross-domain access. In general, same origin policy on an intranet isn't as strict as on the Internet. For more information, see [Same Origin Policy Part 1: No Peeking](/archive/blogs/ieinternals/same-origin-policy-part-1-no-peeking) and [Addressing same-origin policy limitations in Office Add-ins](../develop/addressing-same-origin-policy-limitations.md).
 
-### Tips to prevent malicious cross-site scripting
+### Prevent malicious cross-site scripting
 
-An ill-intentioned user could attack the origin of an add-in by entering malicious script through the document or fields in the add-in. A developer should process user input to avoid executing a malicious user's JavaScript within their domain. The following are some good practices to follow to handle user input from a document or mail message, or via fields in an add-in.
+A bad actor could attack the origin of an add-in by entering malicious script through the document or fields in the add-in. A developer should process user input to avoid executing a malicious user's JavaScript within their domain. The following are some good practices to follow to handle user input from a document or mail message, or via fields in an add-in.
 
 - Instead of the DOM property [innerHTML](https://developer.mozilla.org/docs/Web/API/Element/innerHTML), use the [innerText](https://developer.mozilla.org/docs/Web/API/Node/innerText) and [textContent](https://developer.mozilla.org/docs/DOM/Node.textContent) properties where appropriate. Do the following for Internet Explorer and Firefox cross-browser support.
 
@@ -204,7 +259,7 @@ An ill-intentioned user could attack the origin of an add-in by entering malicio
 
 - See [Developing secure add-ins](/previous-versions/windows/apps/hh849625(v=win.10)) for more best practices to create more secure web solutions.
 
-### Tips to prevent "Clickjacking"
+### Prevent "clickjacking"
 
 Because Office Add-ins are rendered in an iframe when running in a browser with Office client applications, use the following tips to minimize the risk of [clickjacking](https://en.wikipedia.org/wiki/Clickjacking) -- a technique used by hackers to fool users into revealing confidential information.
 
@@ -212,7 +267,7 @@ First, identify sensitive actions that your add-in can perform. These include an
 
 Second, for sensitive actions, your add-in should confirm with the user before it executes the action. This confirmation should detail what effect the action will have. It should also detail how the user can prevent the action, if necessary, whether by choosing a specific button marked "Don't Allow" or by ignoring the confirmation.
 
-Third, to ensure that no potential attacker can hide or mask the confirmation, you should display it outside the context of the add-in (that is, not in an HTML dialog box).
+Third, to ensure that no threat actor can hide or mask the confirmation, you should display it outside the context of the add-in (that is, not in an HTML dialog box).
 
 The following are some examples of how you could get confirmation.
 
@@ -220,9 +275,25 @@ The following are some examples of how you could get confirmation.
 
 - Send a text message to the user that includes a confirmation code that the user can enter in the add-in.
 
-- Open a confirmation dialog in a new browser window to a page that cannot be iframed. This is typically the pattern that is used by login pages. Use the [dialog api](../develop/dialog-api-in-office-add-ins.md) to create a new dialog.
+- Open a confirmation dialog in a new browser window to a page that cannot be iframed. This is typically the pattern that is used by login pages. Use the [dialog API](../develop/dialog-api-in-office-add-ins.md) to create a new dialog.
 
-Also, ensure that the address you use for contacting the user couldn't have been provided by a potential attacker. For example, for payment confirmations use the address on file for the authorized user's account.
+Also, ensure that the address you use for contacting the user couldn't have been provided by a threat actor. For example, for payment confirmations use the address on file for the authorized user's account.
+
+### Request permission to access device capabilities (applies to Office on the web and new Outlook on Windows)
+
+If an add-in requires access to a user's device capabilities, such as their camera, geolocation, or microphone, the developer must configure it to request permission from the user. This applies to the following Office applications.
+
+- Office on the web (Excel, Outlook, PowerPoint, and Word) running in Chromium-based browsers, such as Microsoft Edge or Google Chrome
+- [new Outlook on Windows](https://support.microsoft.com/office/656bb8d9-5a60-49b2-a98b-ba7822bc7627)
+
+To request permission, the add-in must implement the [device permission API](/javascript/api/office/office.devicepermission).
+
+For information on how the user is prompted for permission, see [View, manage, and install add-ins for Excel, PowerPoint, and Word](https://support.microsoft.com/office/16278816-1948-4028-91e5-76dca5380f8d).
+
+> [!NOTE]
+>
+> - Add-ins that run in Office desktop clients or in browsers not based on Chromium automatically show a dialog requesting for a user's permission. The developer doesn't need to implement the device permission API on these platforms.
+> - Add-ins that run in Safari are blocked from accessing a user's device capabilities. The device permission API isn't supported in Safari.
 
 ### Other security practices
 
@@ -230,7 +301,7 @@ Developers should also take note of the following security practices.
 
 - Developers shouldn't use ActiveX controls in Office Add-ins as ActiveX controls don't support the cross-platform nature of the add-in platform.
 
-- Content and task pane add-ins assume the same SSL settings that the browser uses by default, and allows most content to be delivered only by SSL. Outlook add-ins require all content to be delivered by SSL. Developers must specify in the **\<SourceLocation\>** element of the add-in manifest a URL that uses HTTPS, to identify the location of the HTML file for the add-in.
+- Content and task pane add-ins assume the same SSL settings that the browser uses by default, and allows most content to be delivered only by SSL. Outlook add-ins require all content to be delivered by SSL. Developers must specify in the `<SourceLocation>` element of the add-in manifest a URL that uses HTTPS, to identify the location of the HTML file for the add-in.
 
   To make sure add-ins aren't delivering content by using HTTP, when testing add-ins, developers should make sure the following settings are selected in **Internet Options** in **Control Panel** and no security warnings appear in their test scenarios.
 
@@ -256,21 +327,19 @@ Other than resource usage rules, developers for Outlook add-ins should also make
 
 In a corporate setting, IT administrators have ultimate authority over enabling or disabling access to AppSource and any private catalogs.
 
-The management and enforcement of Office settings is done with group policy settings. These are configurable through the [Office Deployment Tool](/deployoffice/overview-of-the-office-2016-deployment-tool), in conjunction with the [Office Customization Tool](/deployoffice/overview-of-the-office-customization-tool-for-click-to-run).
+The management and enforcement of Office settings is done with group policy settings. These are configurable through the [Office Deployment Tool](/deployoffice/overview-office-deployment-tool), in conjunction with the [Office Customization Tool](/deployoffice/admincenter/overview-office-customization-tool).
 
 | Setting name | Description |
 |--------------|-------------|
 | Allow Unsecure web add-ins and Catalogs | Allows users to run non-secure Office Add-ins, which are Office Add-ins that have webpage or catalog locations that are not SSL-secured (https://) and are not in users' Internet zones. |
 | Block Web Add-ins | Allows you to prevent users from running Office Add-ins that use web technologies. |
-| Block the Office Store |  Allows you to prevent users from getting or running Office Add-ins that come from the Office Store. |
+| Block the Office Store |  Allows you to prevent users from getting or running Office Add-ins that come from [AppSource](https://appsource.microsoft.com). |
 
-> [!IMPORTANT]
-> If your working groups are using multiple releases of Office, group policy settings must be configured for each release. Please refer to the [Using Group Policy to manage how users can install and use apps for Office](/previous-versions/office/office-2013-resource-kit/jj219429(v=office.15)#using-group-policy-to-manage-how-users-can-install-and-use-apps-for-office) of the [Overview of apps for Office 2013](/previous-versions/office/office-2013-resource-kit/jj219429(v%3doffice.15)) article for details on group policy settings for Office 2013.
+To specify permissions to install and manage Outlook add-ins in an organization that uses Exchange Online, configure administrative and user roles in the Exchange admin center. For more information, see [Specify the administrators and users who can install and manage add-ins for Outlook in Exchange Online](/exchange/clients-and-mobile-in-exchange-online/add-ins-for-outlook/specify-who-can-install-and-manage-add-ins).
 
 ## See also
 
 - [Requesting permissions for API use in add-ins](../develop/requesting-permissions-for-api-use-in-content-and-task-pane-add-ins.md)
-- [Privacy, permissions, and security for Outlook add-ins](../outlook/privacy-and-security.md)
 - [Understanding Outlook add-in permissions](../outlook/understanding-outlook-add-in-permissions.md)
 - [Limits for activation and JavaScript API for Outlook add-ins](../outlook/limits-for-activation-and-javascript-api-for-outlook-add-ins.md)
 - [Addressing same-origin policy limitations in Office Add-ins](../develop/addressing-same-origin-policy-limitations.md)

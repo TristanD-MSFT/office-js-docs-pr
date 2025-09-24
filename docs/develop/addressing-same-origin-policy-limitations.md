@@ -1,16 +1,15 @@
 ---
 title: Addressing same-origin policy limitations in Office Add-ins
-description: Learn how to accommodate same-origin policy limitations with JSONP, CORS, IFRAMEs, and other techniques.
-ms.date: 12/12/2022
+description: Learn how to accommodate same-origin policy limitations with JSONP, CORS, iframes, and other techniques.
+ms.date: 12/21/2023
 ms.localizationpriority: medium
 ---
 
-
 # Addressing same-origin policy limitations in Office Add-ins
 
-The same-origin policy enforced by the browser prevents a script loaded from one domain from getting or manipulating properties of a webpage from another domain. This means that, by default, the domain of a requested URL must be the same as the domain of the current webpage. For example, this policy will prevent a webpage in one domain from making [XmlHttpRequest](https://www.w3.org/TR/XMLHttpRequest/) web-service calls to a domain other than the one where it is hosted.
+The same-origin policy enforced by the browser or webview control prevents a script loaded from one domain from getting or manipulating properties of a webpage from another domain. This means that, by default, the domain of a requested URL must be the same as the domain of the current webpage. For example, this policy will prevent a webpage in one domain from making [XmlHttpRequest](https://www.w3.org/TR/XMLHttpRequest/) web-service calls to a domain other than the one where it is hosted.
 
-Because Office Add-ins are hosted in a browser control, the same-origin policy applies to script running in their web pages as well.
+Because Office Add-ins are hosted in a webview control, the same-origin policy applies to script running in their web pages as well.
 
 The same-origin policy can be an unnecessary handicap in many situations, such as when a web application hosts content and APIs across multiple subdomains. There are a few common techniques for securely overcoming same-origin policy enforcement. This article can only provide the briefest introduction to some of them. Please use the links provided to get started in your research of these techniques.
 
@@ -42,9 +41,12 @@ Another way to address same-origin policy limitations is to provide server-side 
 
 To learn more about cross-origin resource sharing, see the many resources available on the web, such as [Cross-Origin Resource Sharing (CORS)](https://web.dev/cross-origin-resource-sharing/).
 
+> [!NOTE]
+> For information on how to use CORS in an Outlook add-in that implements event-based activation or integrated spam reporting, see [Use single sign-on (SSO) or cross-origin resource sharing (CORS) in your event-based or spam-reporting Outlook add-in](../develop/use-sso-in-event-based-activation.md).
+
 ## Build your own proxy using IFRAME and POST MESSAGE (Cross-Window Messaging)
 
-For an example of how to build your own proxy using IFRAME and POST MESSAGE, see [Cross-Window Messaging](http://ejohn.org/blog/cross-window-messaging/).
+For an example of how to build your own proxy using IFRAME and POST MESSAGE, see [Cross-Window Messaging](https://johnresig.com/blog/cross-window-messaging/).
 
 ## See also
 

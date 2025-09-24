@@ -1,8 +1,8 @@
 ---
-ms.date: 11/16/2022
-description: Developing custom functions in Excel quick start guide.
 title: Custom functions quick start
-ms.prod: excel
+description: Developing custom functions in Excel quick start guide.
+ms.date: 08/22/2024
+ms.service: excel
 ms.localizationpriority: high
 ---
 
@@ -12,13 +12,7 @@ With custom functions, developers can add new functions to Excel by defining the
 
 ## Prerequisites
 
-[!include[Set up requirements](../includes/set-up-dev-environment-beforehand.md)]
 [!include[Yeoman generator prerequisites](../includes/quickstart-yo-prerequisites.md)]
-
-- Office connected to a Microsoft 365 subscription (including Office on the web).
-
-  > [!NOTE]
-  > If you don't already have Office, you can [join the Microsoft 365 developer program](https://developer.microsoft.com/office/dev-program) to get a free, 90-day renewable Microsoft 365 subscription to use during development.
 
 ## Build your first custom functions project
 
@@ -30,7 +24,7 @@ To start, you'll use the Yeoman generator to create the custom functions project
     - **Choose a script type:** `JavaScript`
     - **What do you want to name your add-in?** `My custom functions add-in`
 
-    :::image type="content" source="../images/yo-office-excel-cf-quickstart.png" alt-text="Screenshot of the Yeoman Office Add-in generator command line interface prompts for custom functions projects.":::
+    :::image type="content" source="../images/yo-office-excel-cf-quickstart.png" alt-text="The Yeoman Office Add-in generator command line interface prompts for custom functions projects.":::
 
     The Yeoman generator will create the project files and install supporting Node components.
 
@@ -48,21 +42,17 @@ To start, you'll use the Yeoman generator to create the custom functions project
 
 1. Start the local web server, which runs in Node.js. You can try out the custom function add-in in Excel. You may be prompted to open the add-in's task pane, although this is optional. You can still run your custom functions without opening your add-in's task pane.
 
-# [Excel on Windows or Mac](#tab/excel-windows)
-
-To test your add-in in Excel on Windows or Mac, run the following command. When you run this command, the local web server will start and Excel will open with your add-in loaded.
-
-```command&nbsp;line
-npm run start:desktop
-```
-
-[!INCLUDE [alert use https](../includes/alert-use-https.md)]
-
 # [Excel on the web](#tab/excel-online)
 
 To test your add-in in Excel on the web, run the following command. When you run this command, the local web server will start. Replace "{url}" with the URL of an Excel document on your OneDrive or a SharePoint library to which you have permissions.
 
-[!INCLUDE [npm start:web command syntax](../includes/start-web-sideload-instructions.md)]
+[!INCLUDE [npm start on web command syntax](../includes/start-web-sideload-instructions.md)]
+
+[!INCLUDE [alert use https](../includes/alert-use-https.md)]
+
+# [Excel on Windows or Mac](#tab/excel-windows)
+
+The command to test your add-in in Excel on Windows or Mac depends on when the project was created. If there's a "start:desktop" script in the "scripts" section of the package.json file, then run `npm run start:desktop`; otherwise, run `npm run start`. The local web server will start and Excel will open with your add-in loaded.
 
 [!INCLUDE [alert use https](../includes/alert-use-https.md)]
 
@@ -76,11 +66,13 @@ In your Excel workbook, try out the `ADD` custom function by completing the foll
 
 1. Select a cell and type `=CONTOSO`. Notice that the autocomplete menu shows the list of all functions in the `CONTOSO` namespace.
 
-1. Run the `CONTOSO.ADD` function, using numbers `10` and `200` as input parameters, by typing the value `=CONTOSO.ADD(10,200)` in the cell and pressing enter.
+1. Run the `CONTOSO.ADD` function, using numbers `10` and `200` as input parameters, by typing the value `=CONTOSO.ADD(10,200)` in the cell and pressing <kbd>Enter</kbd>.
 
-The `ADD` custom function computes the sum of the two numbers that you specify as input parameters. Typing `=CONTOSO.ADD(10,200)` should produce the result **210** in the cell after you press enter.
+The `ADD` custom function computes the sum of the two numbers that you specify as input parameters. Typing `=CONTOSO.ADD(10,200)` should produce the result **210** in the cell after you press <kbd>Enter</kbd>.
 
 [!include[Manually register an add-in](../includes/excel-custom-functions-manually-register.md)]
+
+[!include[Instructions to stop web server and uninstall dev add-in](../includes/stop-uninstall-dev-add-in.md)]
 
 ## Next steps
 
@@ -89,11 +81,11 @@ Congratulations, you've successfully created a custom function in an Excel add-i
 > [!div class="nextstepaction"]
 > [Excel custom functions add-in tutorial](../tutorials/excel-tutorial-create-custom-functions.md#create-a-custom-function-that-requests-data-from-the-web)
 
-## Troubleshooting
+[!include[The common troubleshooting section for all quickstarts](../includes/quickstart-troubleshooting-yo.md)]
 
-You may encounter issues if you run the quick start multiple times. If the Office cache already has an instance of a function with the same name, your add-in gets an error when it sideloads. You can prevent this by [clearing the Office cache](../testing/clear-cache.md) before running `npm run start`.
+- You may encounter issues if you run the quick start multiple times. If the Office cache already has an instance of a function with the same name, your add-in gets an error when it sideloads. You can prevent this by [clearing the Office cache](../testing/clear-cache.md) before running `npm run start` and making sure to run `npm stop` before restarting the add-in.
 
-:::image type="content" source="../images/custom-function-already-exists-error.png" alt-text="An error message in Excel titled 'Error installing functions'. It contains the text 'This add-in wasn't installed because a custom function with the same name already exists'.":::
+  :::image type="content" source="../images/custom-function-already-exists-error.png" alt-text="An error message in Excel titled 'Error installing functions'. It contains the text 'This add-in wasn't installed because a custom function with the same name already exists'.":::
 
 ## See also
 

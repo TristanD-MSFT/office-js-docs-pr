@@ -2,6 +2,7 @@
 title: Fabric Core in Office Add-ins 
 description: Get an overview of how to use Fabric Core, and Fabric UI components in Office Add-ins.
 ms.date: 10/18/2022
+ms.topic: overview
 ms.localizationpriority: medium
 ---
 
@@ -21,7 +22,7 @@ If your add-in's UI isn't React-based, you can also make use of a set of non-Rea
 1. Add the content delivery network (CDN) reference to the HTML on your page.
 
     ```html
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css">
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.0.0/css/fabric.min.css">
     ```
 
 2. Use Fabric Core icons and fonts.
@@ -51,7 +52,6 @@ The following sample add-ins use Fabric Core and/or Office UI Fabric JS componen
 - [Excel Add-in JavaScript SalesTracker](https://github.com/OfficeDev/Excel-Add-in-JavaScript-SalesTracker)
 - [Excel Add-in SalesLeads](https://github.com/OfficeDev/Excel-Add-in-SalesLeads)
 - [Excel Add-in WoodGrove Expense Trends](https://github.com/OfficeDev/Excel-Add-in-WoodGrove-Expense-Trends)
-- [Excel Content Add-in Humongous Insurance](https://github.com/OfficeDev/Excel-Content-Add-in-Humongous-Insurance)
 - [Office Add-in Fabric UI Sample](https://github.com/OfficeDev/Office-Add-in-Fabric-UI-Sample)
 - [Office-Add-in-UX-Design-Patterns-Code](https://github.com/OfficeDev/Office-Add-in-UX-Design-Patterns-Code)
 - [Outlook Add-in GifMe](https://github.com/OfficeDev/Outlook-Add-in-GifMe)

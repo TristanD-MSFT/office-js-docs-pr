@@ -1,7 +1,8 @@
 ---
 title: Task panes in Office Add-ins
 description: Task panes give users access to interface controls that run code to modify documents or emails, or display data from a data source.
-ms.date: 05/12/2021
+ms.date: 08/18/2023
+ms.topic: overview
 ms.localizationpriority: medium
 ---
 
@@ -12,7 +13,7 @@ Task panes are interface surfaces that typically appear on the right side of the
 
 *Figure 1. Typical task pane layout*
 
-![Illustration displaying a typical task pane layout with section tabs at the top, company logo and company name in the bottom left, and a settings icon in the bottom right.](../images/overview-with-app-task-pane.png)
+![A typical task pane layout with section tabs at the top, company logo and company name in the bottom left, and a settings icon in the bottom right.](../images/overview-with-app-task-pane.png)
 
 ## Best practices
 
@@ -20,8 +21,8 @@ Task panes are interface surfaces that typically appear on the right side of the
 |:-----|:--------|
 |Include the name of your add-in in the title.|Don't append your company name to the title.|
 |Use short descriptive names in the title.|Don't append strings such as "add-in," "for Word," or "for Office" to the title of your add-in.|
-|Include some navigational or commanding element such as the CommandBar or Pivot at the top of your add-in.|*None.*|
-|Include a branding element such as the BrandBar at the bottom of your add-in unless your add-in is to be used within Outlook.|*None.*|
+|Include some navigational or commanding element such as the CommandBar or Pivot at the top of your add-in.|*None*|
+|Include a branding element such as the BrandBar at the bottom of your add-in unless your add-in is to be used within Outlook.|*None*|
 
 ## Variants
 
@@ -29,7 +30,7 @@ The following images show the various task pane sizes with the Office app ribbon
 
 *Figure 2. Office 2016 desktop task pane sizes*
 
-![Diagram displaying the desktop task pane sizes at 1366x768 resolution.](../images/office-2016-taskpane-sizes.png)
+![Desktop task pane sizes at 1366x768 resolution.](../images/office-2016-taskpane-sizes.png)
 
 - Excel - 320x455 pixels
 - PowerPoint - 320x531 pixels
@@ -40,7 +41,7 @@ The following images show the various task pane sizes with the Office app ribbon
 
 *Figure 3. Office task pane sizes*
 
-![Diagram displaying the task pane sizes at 1366x768 resolution.](../images/office-365-taskpane-sizes.png)
+![Task pane sizes at 1366x768 resolution.](../images/office-365-taskpane-sizes.png)
 
 - Excel - 350x378 pixels
 - PowerPoint - 348x391 pixels
@@ -55,13 +56,13 @@ For Windows, the personality menu measures 12x32 pixels, as shown.
 
 *Figure 4. Personality menu on Windows*
 
-![Diagram showing the personality menu on Windows desktop.](../images/personality-menu-win.png)
+![The personality menu on Windows desktop.](../images/personality-menu-win.png)
 
 For Mac, the personality menu measures 26x26 pixels, but floats 8 pixels in from the right and 6 pixels from the top, which increases the space to 34x32 pixels, as shown.
 
 *Figure 5. Personality menu on Mac*
 
-![Diagram showing the personality menu on Mac desktop.](../images/personality-menu-mac.png)
+![The personality menu on Mac desktop.](../images/personality-menu-mac.png)
 
 ## Implementation
 

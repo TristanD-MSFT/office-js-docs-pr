@@ -1,13 +1,14 @@
 ---
 title: Fresh style icon guidelines for Office Add-ins
 description: Guidelines for using Fresh style icons in Office Add-ins.
-ms.date: 07/08/2021
+ms.date: 08/25/2025
+ms.topic: best-practice
 ms.localizationpriority: medium
 ---
 
 # Fresh style icon guidelines for Office Add-ins
 
-The Office 2013+ (perpetual) versions of Office use Microsoft's Fresh style iconography. If you would prefer that your icons match the Monoline style of Microsoft 365, see [Monoline style icon guidelines for Office Add-ins](add-in-icons-monoline.md).
+Perpetual Office 2016 and later use Microsoft's Fresh style iconography. If you would prefer that your icons match the Monoline style of Microsoft 365, see [Monoline style icon guidelines for Office Add-ins](add-in-icons-monoline.md).
 
 ## Office Fresh visual style
 
@@ -20,12 +21,12 @@ Follow these guidelines when you create your icons.
 |Do|Don't|
 |:---|:---|
 |Keep visuals simple and clear, focusing on the key elements of the communication.| Don't use artifacts that make your icon look messy.|
-|Use the Office icon language to represent behaviors or concepts.|Don’t repurpose Fabric Core glyphs for add-in commands in the Office app ribbon or contextual menus. Fabric Core icons are stylistically different and will not match.|
+|Use the Office icon language to represent behaviors or concepts.|Don't repurpose Fabric Core glyphs for add-in commands in the Office app ribbon or contextual menus. Fabric Core icons are stylistically different and won't match.|
 |Reuse common Office visual metaphors such as paintbrush for format or magnifying glass for find.|Don't reuse visual metaphors for different commands. Using the same icon for different behaviors and concepts can cause confusion. |
 |Redraw your icons to make them small or larger. Take the time to redraw cutouts, corners, and rounded edges to maximize line clarity. |Don't resize your icons by shrinking or enlarging in size. This can lead to poor visual quality and unclear actions. Complex icons created at a larger size may lose clarity if resized to be smaller without redraw. |
-|Use a white fill for accessibility. Most objects in your icons will require a white background to be legible across Office UI themes and in high-contrast modes.  |Avoid relying on your logo or brand to communicate what an add-in command does. Brand marks aren't always recognizable at smaller icon sizes and when modifiers are applied. Brand marks often conflict with Office app ribbon icon styles, and can compete for user attention in a saturated environment. |
-|Use the PNG format with a transparent background. |*None.*|
-|Avoid localizable content in your icons, including typographic characters, indications of paragraph rags, and question marks. |*None.*|
+|Use a white fill for accessibility. Most objects in your icons will require a white background to be legible across Office UI themes and in high-contrast modes. |Avoid relying on your logo or brand to communicate what an add-in command does. Brand marks aren't always recognizable at smaller icon sizes and when modifiers are applied. Brand marks often conflict with Office app ribbon icon styles, and can compete for user attention in a saturated environment. |
+|Use the PNG format with a transparent background. |*None*|
+|Avoid localizable content in your icons, including typographic characters, indications of paragraph rags, and question marks. |*None*|
 
 ## Icon size recommendations and requirements
 
@@ -41,7 +42,7 @@ Office desktop icons are bitmap images. Different sizes will render depending on
 - 80 px (Required)
 
 > [!IMPORTANT]
-> For an image that is your add-in's representative icon, see [Create effective listings in AppSource and within Office](/office/dev/store/create-effective-office-store-listings#create-an-icon-for-your-add-in) for size and other requirements.
+> For an image that is your add-in's representative icon, see [Create effective listings in AppSource and within Office](/partner-center/marketplace-offers/create-effective-office-store-listings#create-an-icon-for-your-add-in) for size and other requirements.
 
 Make sure to redraw your icons for each size rather than shrink them to fit.
 
@@ -55,7 +56,7 @@ To create commands that align with the Office UI, follow layout guidelines for t
 
 The following image shows the layout of base elements and modifiers in an Office icon.
 
-![Diagram showing an icon base element in the center with a modifier on the lower right and an action modifier on the upper left.](../images/icon-layouts.png)
+![An icon base element in the center with a modifier on the lower right and an action modifier on the upper left.](../images/icon-layouts.png)
 
 - Center base elements in the pixel frame with empty padding all around.
 - Place action modifiers on the top left.
@@ -68,7 +69,7 @@ Place base elements consistently across sizes. If base elements can't be centere
 
 ### Modifiers
 
-All modifiers should have a 1 px transparent cutout between each element, including the background. Elements should not directly overlap. Create whitespace between rules and edges. Modifiers can vary slightly in size, but use these dimensions as a starting point.
+All modifiers should have a 1 px transparent cutout between each element, including the background. Elements shouldn't directly overlap. Create whitespace between rules and edges. Modifiers can vary slightly in size, but use these dimensions as a starting point.
 
 |Icon size|Padding around base element|Modifier size|
 |:---|:---|:---|
@@ -84,7 +85,7 @@ All modifiers should have a 1 px transparent cutout between each element, includ
 ## Icon colors
 
 > [!NOTE]
-> These color guidelines are for ribbon icons used in [Add-in commands](add-in-commands.md). These icons are not rendered with Fluent UI and the color palette is different from the palette described at [Microsoft UI Fabric | Colors | Shared](https://fluentfabric.azurewebsites.net/#/color/shared).
+> These color guidelines are for ribbon icons used in [Add-in commands](add-in-commands.md). These icons aren't rendered with Fluent UI.
 
 Office icons have a limited color palette. Use the colors listed in the following table to guarantee seamless integration with the Office UI. Apply the following guidelines to the use of color.
 
@@ -127,7 +128,13 @@ Office icons are designed to render well in high contrast modes. Foreground elem
 
 ## See also
 
+### Unified manifest reference
+
+- [`"extensions.ribbons"` array](/microsoft-365/extensibility/schema/extension-ribbons-array)
+
+### Add-in only manifest reference
+
 - [Icon manifest element](/javascript/api/manifest/icon)
 - [IconUrl manifest element](/javascript/api/manifest/iconurl)
 - [HighResolutionIconUrl manifest element](/javascript/api/manifest/highresolutioniconurl)
-- [Create an icon for your add-in](/office/dev/store/create-effective-office-store-listings#create-an-icon-for-your-add-in)
+- [Create an icon for your add-in](/partner-center/marketplace-offers/create-effective-office-store-listings#create-an-icon-for-your-add-in)

@@ -1,7 +1,7 @@
 ---
 title: Excel add-ins overview
 description: Excel add-in allow you to extend Excel application functionality across multiple platforms including Windows, Mac, iPad, and in a browser.
-ms.date: 05/19/2022
+ms.date: 03/21/2023
 ms.topic: overview
 ms.custom: scenarios:getting-started
 ms.localizationpriority: high
@@ -23,10 +23,10 @@ The Office Add-ins platform provides the framework and Office.js JavaScript APIs
 - **Cross-platform support**: Excel add-ins run in Office on the web, Windows, Mac, and iPad.
 - **Centralized deployment**: Admins can quickly and easily deploy Excel add-ins to users throughout an organization.
 - **Use of standard web technology**: Create your Excel add-in using familiar web technologies such as HTML, CSS, and JavaScript.
-- **Distribution via AppSource**: Share your Excel add-in with a broad audience by publishing it to [AppSource](https://appsource.microsoft.com/marketplace/apps?product=office&page=1&src=office&corrid=53245fad-fcbe-41f8-9f97-b0840264f97c&omexanonuid=4a0102fb-b31a-4b9f-9bb0-39d4cc6b789d).
+- **Distribution via AppSource**: Share your Excel add-in with a broad audience by publishing it to [AppSource](https://appsource.microsoft.com/marketplace/apps?product=office).
 
 > [!NOTE]
-> Excel add-ins are different from COM and VSTO add-ins, which are earlier Office integration solutions that run only in Office on Windows. Unlike COM add-ins, Excel add-ins do not require you to install any code on a user's device, or within Excel.
+> Excel add-ins are different from COM and VSTO add-ins, which are earlier Office integration solutions that run only in Office on Windows. Unlike COM add-ins, Excel add-ins don't require you to install any code on a user's device, or within Excel.
 
 ## Components of an Excel add-in
 
@@ -40,14 +40,14 @@ The web application uses the [Office JavaScript API](../reference/javascript-api
 
 The web application can be hosted on any web server, and can be built using client-side frameworks (such as Angular, React, jQuery) or server-side technologies (such as ASP.NET, Node.js, PHP).
 
-The [manifest](../develop/add-in-manifests.md) is an XML configuration file that defines how the add-in integrates with Office clients by specifying settings and capabilities such as:
+The [manifest](../develop/add-in-manifests.md) is a configuration file that defines how the add-in integrates with Office clients by specifying settings and capabilities such as:
 
 - The URL of the add-in's web application.
 - The add-in's display name, description, ID, version, and default locale.
 - How the add-in integrates with Excel, including any custom UI that the add-in creates (ribbon buttons, context menus, and so on).
 - Permissions that the add-in requires, such as reading and writing to the document.
 
-To enable end users to install and use an Excel add-in, you must publish its manifest either to AppSource or to an add-ins catalog. For details about publishing to AppSource, see [Make your solutions available in AppSource and within Office](/office/dev/store/submit-to-appsource-via-partner-center).
+To enable end users to install and use an Excel add-in, you must publish its manifest either to AppSource or to an add-ins catalog. For details about publishing to AppSource, see [Make your solutions available in AppSource and within Office](/partner-center/marketplace-offers/submit-to-appsource-via-partner-center).
 
 ## Capabilities of an Excel add-in
 
@@ -91,15 +91,11 @@ Content add-ins are surfaces that you can embed directly into Excel documents. Y
 
 ![Content add-in in Excel.](../images/excel-add-in-content-map.png)
 
-For more information about content add-ins, see [Content Office Add-ins](../design/content-add-ins.md). For a sample that implements a content add-in in Excel, see [Excel Content Add-in Humongous Insurance](https://github.com/OfficeDev/Excel-Content-Add-in-Humongous-Insurance) in GitHub.
+For more information about content add-ins, see [Content Office Add-ins](../design/content-add-ins.md). For a sample that implements a content add-in in Excel, see [Excel content add-in: Humongous Insurance](https://github.com/OfficeDev/Office-Add-in-samples/tree/main/Samples/excel-content-add-in) in GitHub.
 
 ## JavaScript APIs to interact with workbook content
 
-An Excel add-in interacts with objects in Excel by using the [Office JavaScript API](../reference/javascript-api-for-office.md), which includes two JavaScript object models:
-
-- **Excel JavaScript API**: Introduced with Office 2016, the [Excel JavaScript API](../reference/overview/excel-add-ins-reference-overview.md) provides strongly-typed Excel objects that you can use to access worksheets, ranges, tables, charts, and more.
-
-- **Common API**: Introduced with Office 2013, the Common API enables you to access features such as UI, dialogs, and client settings that are common across multiple types of Office applications. Because the Common API does provide limited functionality for Excel interaction, you can use it if your add-in needs to run on Excel 2013.
+[!include[The roles of the Common and application-specific APIs](../includes/excel-api-models.md)]
 
 ## Next steps
 
@@ -108,7 +104,7 @@ Get started by [creating your first Excel add-in](../quickstarts/excel-quickstar
 ## See also
 
 - [Office Add-ins platform overview](../overview/office-add-ins.md)
-- [Learn about Microsoft 365 Developer Program](https://developer.microsoft.com/microsoft-365/dev-program)
+- [Learn about Microsoft 365 Developer Program](/office/developer-program/microsoft-365-developer-program-faq#who-qualifies-for-a-microsoft-365-e5-developer-subscription-)
 - [Developing Office Add-ins](../develop/develop-overview.md)
 - [Excel JavaScript object model in Office Add-ins](excel-add-ins-core-concepts.md)
 - [Excel JavaScript API reference](../reference/overview/excel-add-ins-reference-overview.md)

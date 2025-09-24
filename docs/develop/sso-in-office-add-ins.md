@@ -1,7 +1,7 @@
----
+﻿---
 title: Enable single sign-on (SSO) in an Office Add-in
 description: Learn the key steps to enable single sign-on (SSO) for your Office Add-in using common Microsoft personal, work, or education accounts.
-ms.date: 05/05/2022
+ms.date: 05/06/2024
 ms.localizationpriority: high
 ---
 
@@ -34,7 +34,7 @@ Never cache or store the access token in your client-side code. Always call [get
 
 ### Enable modern authentication for Outlook
 
-If you are working with an **Outlook** add-in, be sure to enable Modern Authentication for the Microsoft 365 tenancy. For information about how to do this, see [Exchange Online: How to enable your tenant for modern authentication](https://social.technet.microsoft.com/wiki/contents/articles/32711.exchange-online-how-to-enable-your-tenant-for-modern-authentication.aspx).
+If you're working with an Outlook add-in, be sure to enable Modern Authentication for the Microsoft 365 tenancy. For information about how to do this, see [Enable or disable modern authentication for Outlook in Exchange Online](/exchange/clients-and-mobile-in-exchange-online/enable-or-disable-modern-authentication-in-exchange-online).
 
 ### Implement a fallback authentication system
 
@@ -69,13 +69,29 @@ For more details about this process, see [Register an Office Add-in that uses SS
 
 ### Configure the add-in
 
-Add new markup to the add-in manifest.
+Your manifest must provide Office with certain information about how the add-in is registered in Microsoft Entra ID. The configuration depends on which type of manifest the add-in uses.
 
-- **\<WebApplicationInfo\>** - The parent of the following elements.
-- **\<Id\>** - The application (client) ID you received when you registered the add-in with the Microsoft identity platform. For more information, see [Register an Office Add-in that uses SSO with the Microsoft identity platform](register-sso-add-in-aad-v2.md).
-- **\<Resource\>** - The URI of the add-in. This is the same URI (including the `api:` protocol) that you used when registering the add-in with the Microsoft identity platform. The domain part of this URI must match the domain, including any subdomains, used in the URLs in the **\<Resources\>** section of the add-in's manifest and the URI must end with the client ID specified in the **\<Id\>** element.
-- **\<Scopes\>** - The parent of one or more **\<Scope\>** elements.
-- **\<Scope\>** - Specifies a permission that the add-in needs. The `profile` and `openID` permissions are always needed and may be the only permissions needed. If your add-in needs access to Microsoft Graph or other Microsoft 365 resources, you'll need additional **\<Scope\>** elements. For example, for Microsoft Graph permissions you might request the `User.Read` and `Mail.Read` scopes. Libraries that you use in your code to access Microsoft Graph may need additional permissions. For more information, see [Authorize to Microsoft Graph from an Office Add-in](authorize-to-microsoft-graph.md).
+# [Unified manifest](#tab/jsonmanifest)
+
+There should be a [`"webApplicationInfo"`](/microsoft-365/extensibility/schema/root#webApplicationInfo-property) property in the root of the manifest. It has a required child `"id"` property which must be set to the application ID (a GUID) of the add-in in the Microsoft identity platform. For SSO, it must also have a child `"resource"` property that is set to the URI of the add-in. This is the same **Application ID URI** (including the `api:` protocol) that you set when you registered the add-in with the Microsoft identity platform. The URI must end with the client ID specified in the `"webApplicationInfo.id"` property. The following is an example:
+
+```json
+"webApplicationInfo": {
+    "id": "a661fed9-f33d-4e95-b6cf-624a34a2f51d",
+    "resource": "api://addin.contoso.com/a661fed9-f33d-4e95-b6cf-624a34a2f51d"
+},
+```
+
+> [!NOTE]
+> Experienced add-in developers should note that, there is no unified manifest property corresponding to the `<Scopes>` element in the add-in only manifest. Microsoft Graph and other API permissions are requested at runtime in your code.
+
+# [Add-in only manifest](#tab/xmlmanifest)
+
+- `<WebApplicationInfo>` - The parent of the following elements.
+- `<Id>` - The application (client) ID you received when you registered the add-in with the Microsoft identity platform. For more information, see [Register an Office Add-in that uses SSO with the Microsoft identity platform](register-sso-add-in-aad-v2.md).
+- `<Resource>` - The URI of the add-in. This is the same URI (including the `api:` protocol) that you used when registering the add-in with the Microsoft identity platform. The domain part of this URI must match the domain, including any subdomains, used in the URLs in the `<Resources>` section of the add-in's manifest and the URI must end with the client ID specified in the `<Id>` element.
+- `<Scopes>` - The parent of one or more `<Scope>` elements.
+- `<Scope>` - Specifies a permission that the add-in needs. The `profile` and `openID` permissions are always needed and may be the only permissions needed. If your add-in needs access to Microsoft Graph or other Microsoft 365 resources, you'll need additional `<Scope>` elements. For example, for Microsoft Graph permissions you might request the `User.Read` and `Mail.Read` scopes. Libraries that you use in your code to access Microsoft Graph may need additional permissions. For more information, see [Authorize to Microsoft Graph from an Office Add-in](authorize-to-microsoft-graph.md).
 
 For Word, Excel, and PowerPoint add-ins, add the markup to the end of the `<VersionOverrides ... xsi:type="VersionOverridesV1_0">` section. For Outlook add-ins, add the markup to the end of the `<VersionOverrides ... xsi:type="VersionOverridesV1_1">` section.
 
@@ -99,6 +115,8 @@ The following is an example of the markup.
 
 > [!NOTE]
 > If you don't follow the format requirements in the manifest for SSO, your add-in will be rejected from AppSource until it meets the required format.
+
+---
 
 ### Include the Identity API requirement set
 
@@ -135,7 +153,6 @@ async function getUserData() {
     }
 }
 ```
-
 
 #### When to call getAccessToken
 
@@ -238,6 +255,8 @@ The following is a typical decoded payload of an access token. For information a
 ## Using SSO with an Outlook add-in
 
 There are some small, but important differences in using SSO in an Outlook add-in from using it in an Excel, PowerPoint, or Word add-in. Be sure to read [Authenticate a user with a single sign-on token in an Outlook add-in](../outlook/authenticate-a-user-with-an-sso-token.md) and [Scenario: Implement single sign-on to your service in an Outlook add-in](../outlook/implement-sso-in-outlook-add-in.md).
+
+[!INCLUDE [chrome-tracking-prevention](../includes/chrome-tracking-prevention.md)]
 
 ## See also
 

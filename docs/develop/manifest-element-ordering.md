@@ -1,7 +1,7 @@
----
+﻿---
 title: How to find the proper order of manifest elements
 description: Learn how to find the correct order in which to place child elements in a parent element.
-ms.date: 10/25/2021
+ms.date: 06/13/2025
 ms.localizationpriority: medium
 ---
 
@@ -11,12 +11,12 @@ The XML elements in the manifest of an Office Add-in must be under the proper pa
 
 The required ordering is specified in the XSD files in the [Schemas](/openspecs/office_file_formats/ms-owemxml/c6a06390-34b8-4b42-82eb-b28be12494a8) folder. The XSD files are categorized into subfolders for taskpane, content, and mail add-ins.
 
-For example, in the **\<OfficeApp\>** element, the **\<Id\>**, **\<Version\>**, **\<ProviderName\>** must appear in that order. If an **\<AlternateId\>** element is added, it must be between the **\<Id\>** and **\<Version\>** element. Your manifest will not be valid and your add-in will not load, if any element is in the wrong order.
+For example, in the `<OfficeApp>` element, the `<Id>`, `<Version>`, `<ProviderName>` must appear in that order. If an `<AlternateId>` element is added, it must be between the `<Id>` and `<Version>` element. Your manifest will not be valid and your add-in will not load, if any element is in the wrong order.
 
 > [!NOTE]
 > The [validator within office-addin-manifest](../testing/troubleshoot-manifest.md#validate-your-manifest-with-office-addin-manifest) uses the same error message when an element is out-of-order as it does when an element is under the wrong parent. The error says the child element is not a valid child of the parent element. If you get such an error but the reference documentation for the child element indicates that it *is* valid for the parent, then the problem is likely that the child has been placed in the wrong order.
 
-The following sections show the manifest elements in the order in which they must appear. There are differences depending on whether the `type` attribute of the **\<OfficeApp\>** element is `TaskPaneApp`, `ContentApp`, or `MailApp`. To keep these sections from becoming too unwieldy, the highly complex **\<VersionOverrides\>** element is broken out into separate sections.
+The following sections show the manifest elements in the order in which they must appear. There are differences depending on whether the `type` attribute of the `<OfficeApp>` element is `TaskPaneApp`, `ContentApp`, or `MailApp`. To keep these sections from becoming too unwieldy, the highly complex `<VersionOverrides>` element is broken out into separate sections.
 
 > [!Note]
 > Not all of the elements shown are mandatory. If the `minOccurs` value for a element is **0** in the [schema](/openspecs/office_file_formats/ms-owemxml/4e112d0a-c8ab-46a6-8a6c-2a1c1d1299e3), the element is optional.
@@ -87,8 +87,8 @@ The following sections show the manifest elements in the order in which they mus
     <Hosts>
         <Host>
     <Requirements>
-    <Sets>
-        <Set>
+        <Sets>
+            <Set>
     <FormSettings>
         <Form>
         <DesktopSettings>
@@ -137,8 +137,8 @@ The following sections show the manifest elements in the order in which they mus
     <DefaultSettings>
         <SourceLocation>
             <Override>
-    <RequestedWidth>
-    <RequestedHeight>
+        <RequestedWidth>
+        <RequestedHeight>
     <Permissions>
     <AllowSnapshot>
     <VersionOverrides>*
@@ -204,7 +204,7 @@ The following sections show the manifest elements in the order in which they mus
                                     <Title>
                                     <FunctionName>
                     <CustomTab>
-                        <Group> (can be below <ControlGroup>)
+                        <Group> (can be below <OfficeGroup>)
                             <OverriddenByRibbonApi>
                             <Label>
                             <Icon>
@@ -235,7 +235,7 @@ The following sections show the manifest elements in the order in which they mus
                                             <SourceLocation>
                                             <Title>
                                             <FunctionName>
-                        <ControlGroup> (can be above <Group>)
+                        <OfficeGroup> (can be above <Group>)
                         <Label>
                         <InsertAfter> (or <InsertBefore>)
                     <OfficeMenu>
@@ -287,6 +287,7 @@ The following sections show the manifest elements in the order in which they mus
                 <DisplayName>
                 <FileName>
                 <Type>
+            <Effect>
 ```
 
 ## Mail add-in element ordering within VersionOverrides Ver. 1.0
@@ -400,6 +401,7 @@ The following sections show the manifest elements in the order in which they mus
                 <OfficeTab>
                     <Group>
                         <Label>
+                        <Tooltip>
                         <Control>
                             <Label>
                             <Supertip>
@@ -463,10 +465,27 @@ The following sections show the manifest elements in the order in which they mus
                                     <SourceLocation>
                                     <Title>
                                     <FunctionName>
-                                    <SourceLocation>
                 <SourceLocation>
                 <Label>
                 <CommandSurface>
+        <MobileFormFactor>
+            <ExtensionPoint>
+                <Group>
+                    <Label>
+                    <Control>
+                        <Label>
+                        <Icon>
+                            <Image>
+                        <Action>
+                            <SourceLocation>
+                            <FunctionName>
+                <Control>
+                    <Label>
+                    <Icon>
+                        <Image>
+                    <Action>
+                        <SourceLocation>
+                        <FunctionName>
     <Resources>
         <Images>
             <Image>
@@ -485,6 +504,17 @@ The following sections show the manifest elements in the order in which they mus
         <Resource>
         <Scopes>
             <Scope>
+    <EquivalentAddins>
+        <EquivalentAddin>
+            <ProgId>
+            <DisplayName>
+            <FileName>
+            <Type>    
+    <ConnectedServiceControls>
+        <ConnectedServiceControlsScopes>
+            <Scope>
+    <ExtendedPermissions>
+        <ExtendedPermission>
 ```
 
 ## Content add-in element ordering within VersionOverrides
@@ -500,5 +530,5 @@ The following sections show the manifest elements in the order in which they mus
 
 ## See also
 
-- [Reference for Office Add-ins manifests (v1.1)](../develop/add-in-manifests.md)
+- [Reference for Office Add-ins manifests (v1.1)](/javascript/api/manifest)
 - [Official schema definitions](/openspecs/office_file_formats/ms-owemxml/c6a06390-34b8-4b42-82eb-b28be12494a8)

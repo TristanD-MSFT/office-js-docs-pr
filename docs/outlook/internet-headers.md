@@ -1,7 +1,8 @@
 ---
 title: Get and set internet headers
 description: How to get and set internet headers on a message in an Outlook add-in.
-ms.date: 08/30/2022
+ms.date: 02/11/2025
+ms.topic: how-to
 ms.localizationpriority: medium
 ---
 
@@ -11,25 +12,31 @@ ms.localizationpriority: medium
 
 A common requirement in Outlook add-ins development is to store custom properties associated with an add-in at different levels. At present, custom properties are stored at the item or mailbox level.
 
-- Item level - For properties that apply to a specific item, use the [CustomProperties](/javascript/api/outlook/office.customproperties) object. For example, store a customer code associated with the person who sent the email.
+- Item level - For properties that apply to a specific item that need to be accessed during subsequent Outlook sessions, use the [CustomProperties](/javascript/api/outlook/office.customproperties) object. For example, store a customer code associated with the person who sent the email. If properties for a specific item are only needed during the current compose session, use the [SessionData](/javascript/api/outlook/office.sessiondata) object.
 - Mailbox level - For properties that apply to all the mail items in the user's mailbox, use the [RoamingSettings](/javascript/api/outlook/office.roamingsettings) object. For example, store a user's preference to show the temperature in a particular scale.
 
-Both types of properties aren't preserved after the item leaves the Exchange server, so the email recipients can't get any properties set on the item. Therefore, developers can't access those settings or other Multipurpose Internet Mail Extensions (MIME) properties to enable better read scenarios.
+These types of properties aren't preserved after the item leaves the Exchange server, so the email recipients can't get any properties set on the item. Therefore, developers can't access those settings or other Multipurpose Internet Mail Extensions (MIME) properties to enable better read scenarios.
 
-While there's a way for you to set the internet headers through Exchange Web Services (EWS) requests, in some scenarios, making an EWS request won't work. For example, in Compose mode on Outlook desktop, the item ID isn't synced on `saveAsync` in cached mode.
+In Exchange on-premises environments, while there's a way for you to set the internet headers through Exchange Web Services (EWS) requests, in some scenarios, making an EWS request won't work. For example, in Compose mode on Outlook desktop, the item ID isn't synced on `saveAsync` in cached mode.
 
 > [!TIP]
 > To learn more about using these options, see [Get and set add-in metadata for an Outlook add-in](metadata-for-an-outlook-add-in.md).
 
 ## Purpose of the internet headers API
 
-Introduced in [requirement set 1.8](/javascript/api/requirement-sets/outlook/requirement-set-1.8/outlook-requirement-set-1.8), the internet headers APIs enable developers to:
+Introduced in [Mailbox requirement set 1.8](/javascript/api/requirement-sets/outlook/requirement-set-1.8/outlook-requirement-set-1.8), the internet headers APIs enable developers to:
 
 - Stamp information on an email that persists after it leaves Exchange across all clients.
 - Read information on an email that persisted after the email left Exchange across all clients in mail read scenarios.
 - Access the entire MIME header of the email.
 
 ![Diagram of internet headers. Text: User 1 sends email. Add-in manages custom internet headers while user is composing email. User 2 receives the email. Add-in gets internet headers from received email then parses and uses custom headers.](../images/outlook-internet-headers.png)
+
+## Supported clients
+
+To use the internet headers API in your add-in, your Outlook client must support requirement set 1.8 or later. For information on supported clients, see [Outlook client support](/javascript/api/requirement-sets/outlook/outlook-api-requirement-sets#outlook-client-support).
+
+The internet headers API is also supported in Outlook on Android and on iOS starting in Version 4.2405.0. To learn more about features supported in Outlook on mobile devices, see [Outlook JavaScript APIs supported in Outlook on mobile devices](outlook-mobile-apis.md).
 
 ## Set internet headers while composing a message
 
@@ -43,7 +50,7 @@ The following example shows how to set, get, and remove custom internet headers.
 // Set custom internet headers.
 function setCustomHeaders() {
   Office.context.mailbox.item.internetHeaders.setAsync(
-    { "x-preferred-fruit": "orange", "x-preferred-vegetable": "broccoli", "x-best-vegetable": "spinach" },
+    { "preferred-fruit": "orange", "preferred-vegetable": "broccoli", "best-vegetable": "spinach" },
     setCallback
   );
 }
@@ -59,7 +66,7 @@ function setCallback(asyncResult) {
 // Get custom internet headers.
 function getSelectedCustomHeaders() {
   Office.context.mailbox.item.internetHeaders.getAsync(
-    ["x-preferred-fruit", "x-preferred-vegetable", "x-best-vegetable", "x-nonexistent-header"],
+    ["preferred-fruit", "preferred-vegetable", "best-vegetable", "nonexistent-header"],
     getCallback
   );
 }
@@ -75,7 +82,7 @@ function getCallback(asyncResult) {
 // Remove custom internet headers.
 function removeSelectedCustomHeaders() {
   Office.context.mailbox.item.internetHeaders.removeAsync(
-    ["x-best-vegetable", "x-nonexistent-header"],
+    ["best-vegetable", "nonexistent-header"],
     removeCallback);
 }
 
@@ -94,9 +101,9 @@ getSelectedCustomHeaders();
 
 /* Sample output:
 Successfully set headers
-Selected headers: {"x-best-vegetable":"spinach","x-preferred-fruit":"orange","x-preferred-vegetable":"broccoli"}
+Selected headers: {"best-vegetable":"spinach","preferred-fruit":"orange","preferred-vegetable":"broccoli"}
 Successfully removed selected headers
-Selected headers: {"x-preferred-fruit":"orange","x-preferred-vegetable":"broccoli"}
+Selected headers: {"preferred-fruit":"orange","preferred-vegetable":"broccoli"}
 */
 ```
 
@@ -113,8 +120,8 @@ Office.context.mailbox.item.getAllInternetHeadersAsync(getCallback);
 
 function getCallback(asyncResult) {
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-    console.log("Sender's preferred fruit: " + asyncResult.value.match(/x-preferred-fruit:.*/gim)[0].slice(19));
-    console.log("Sender's preferred vegetable: " + asyncResult.value.match(/x-preferred-vegetable:.*/gim)[0].slice(23));
+    console.log("Sender's preferred fruit: " + asyncResult.value.match(/preferred-fruit:.*/gim)[0].slice(17));
+    console.log("Sender's preferred vegetable: " + asyncResult.value.match(/preferred-vegetable:.*/gim)[0].slice(21));
   } else {
     console.log("Error getting preferences from header: " + JSON.stringify(asyncResult.error));
   }

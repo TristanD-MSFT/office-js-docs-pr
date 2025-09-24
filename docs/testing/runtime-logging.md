@@ -1,7 +1,7 @@
 ---
 title: Debug your add-in with runtime logging
 description: Learn how to use runtime logging to debug your add-in.
-ms.date: 11/04/2021
+ms.date: 11/08/2024
 ms.localizationpriority: medium
 ---
 
@@ -17,9 +17,10 @@ You can use runtime logging to debug your add-in's manifest as well as several i
 
 ## Use runtime logging from the command line
 
-Enabling runtime logging from the command line is the fastest way to use this logging tool. These use npx, which is provided by default as part of npm@5.2.0+. If you have an earlier version of [npm](https://www.npmjs.com/), try [Runtime logging on Windows](#runtime-logging-on-windows) or [Runtime logging on Mac](#runtime-logging-on-mac) instructions, or [install npx](https://www.npmjs.com/package/npx).
+Enabling runtime logging from the command line is the fastest way to use this logging tool.
 
-[!INCLUDE[Office settings tool not supported on Mac](../includes/tool-nonsupport-mac-note.md)]
+> [!IMPORTANT]
+> The office-addin-dev-settings tool is not supported on Mac. See the section [Runtime logging on Mac](#runtime-logging-on-mac) for Mac-specific instructions.
 
 - To enable runtime logging:
 
@@ -51,28 +52,11 @@ Enabling runtime logging from the command line is the fastest way to use this lo
     npx office-addin-dev-settings runtime-log --help
     ```
 
-## Runtime logging on Windows
-
-1. Make sure that you are running Office 2016 desktop build **16.0.7019** or later.
-
-2. Add the `RuntimeLogging` registry key under `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\WEF\Developer\`.
-
-    [!include[Developer registry key](../includes/developer-registry-key.md)]
-
-3. Set the default value of the **RuntimeLogging** key to the full path of the file where you want the log to be written. For an example, see [EnableRuntimeLogging.zip](https://github.com/OfficeDev/Office-Add-in-Commands-Samples/raw/master/Tools/RuntimeLogging/EnableRuntimeLogging.zip).
-
-    > [!NOTE]
-    > The directory in which the log file will be written must already exist, and you must have write permissions to it.
-
-The following image shows what the registry should look like. To turn the feature off, remove the `RuntimeLogging` key from the registry.
-
-![Screenshot of the registry editor with a RuntimeLogging registry key.](../images/runtime-logging-registry.png)
-
 ## Runtime logging on Mac
 
 1. Make sure that you are running Office 2016 desktop build **16.27.19071500** or later.
 
-2. Open **Terminal** and set a runtime logging preference by using the `defaults` command:
+1. Open **Terminal** and set a runtime logging preference by using the `defaults` command:
 
     ```command&nbsp;line
     defaults write <bundle id> CEFRuntimeLoggingFile -string <file_name>
@@ -118,9 +102,9 @@ To use runtime logging to troubleshoot issues loading an add-in:
     > [!NOTE]
     > We recommend that you sideload only the add-in that you are testing to minimize the number of messages in the log file.
 
-2. If nothing happens and you don't see your add-in (and it's not appearing in the add-ins dialog box), open the log file.
+1. If nothing happens and you don't see your add-in (and it's not appearing in the add-ins dialog box), open the log file.
 
-3. Search the log file for your add-in ID, which you define in your manifest. In the log file, this ID is labeled `SolutionId`.
+1. Search the log file for your add-in ID, which you define in your manifest. In the log file, this ID is labeled `SolutionId`.
 
 ## Known issues with runtime logging
 
@@ -134,7 +118,7 @@ You might see messages in the log file that are confusing or that are classified
 
 ## See also
 
-- [Office Add-ins XML manifest](../develop/add-in-manifests.md)
+- [Office Add-ins manifest](../develop/add-in-manifests.md)
 - [Validate an Office Add-in's manifest](troubleshoot-manifest.md)
 - [Clear the Office cache](clear-cache.md)
 - [Sideload Office Add-ins for testing](sideload-office-add-ins-for-testing.md)

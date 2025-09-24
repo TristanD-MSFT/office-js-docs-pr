@@ -1,7 +1,7 @@
----
+﻿---
 title: Create an ASP.NET Office Add-in that uses single sign-on (SSO)
 description: A step-by-step guide for how to create (or convert) an Office Add-in with an ASP.NET backend to use single sign-on (SSO).
-ms.date: 12/20/2022
+ms.date: 05/20/2023
 ms.localizationpriority: medium
 ---
 
@@ -24,7 +24,7 @@ The sample uses SSO and the On-Behalf-Of (OBO) flow to obtain correct access tok
 
 - At least a few files and folders stored on OneDrive for Business in your Microsoft 365 subscription.
 
-- A build of Microsoft 365 that supports the [IdentityAPI 1.3 requirement set](/javascript/api/requirement-sets/common/identity-api-requirement-sets). You can get a [free developer sandbox](https://developer.microsoft.com/microsoft-365/dev-program#Subscription) that provides a renewable 90-day Microsoft 365 E5 developer subscription. The developer sandbox includes a Microsoft Azure subscription that you can use for app registrations in later steps in this article. If you prefer, you can use a separate Microsoft Azure subscription for app registrations. Get a trial subscription at [Microsoft Azure](https://account.windowsazure.com/SignUp).
+- A build of Microsoft 365 that supports the [IdentityAPI 1.3 requirement set](/javascript/api/requirement-sets/common/identity-api-requirement-sets). You might qualify for a Microsoft 365 E5 developer subscription, which includes a developer sandbox, through the [Microsoft 365 Developer Program](https://aka.ms/m365devprogram); for details, see the [FAQ](/office/developer-program/microsoft-365-developer-program-faq#who-qualifies-for-a-microsoft-365-e5-developer-subscription-). The [developer sandbox](https://developer.microsoft.com/microsoft-365/dev-program#Subscription) includes a Microsoft Azure subscription that you can use for app registrations in later steps in this article. If you prefer, you can use a separate Microsoft Azure subscription for app registrations. Get a trial subscription at [Microsoft Azure](https://account.windowsazure.com/SignUp).
 
 ## Set up the starter project
 
@@ -48,7 +48,7 @@ Use the following values for placeholders for the subsequent app registration st
 
 ## Configure the solution
 
-1. In the root of the **Begin** folder, open the solution (.sln) file in **Visual Studio**. Right-click the top node in **Solution Explorer** (the Solution node, not either of the project nodes), and then select **Set startup projects**.
+1. In the root of the **Begin** folder, open the solution (.sln) file in **Visual Studio**. Right-click (or select and hold) the top node in **Solution Explorer** (the Solution node, not either of the project nodes), and then select **Set startup projects**.
 
 1. Under **Common Properties**, select **Startup Project**, and then **Multiple startup projects**. Ensure that the **Action** for both projects is set to **Start**, and that the **Office-Add-in-ASPNETCoreWebAPI** project is listed first. Close the dialog.
 
@@ -69,7 +69,7 @@ Use the following values for placeholders for the subsequent app registration st
 1. Replace the placeholder "Enter_client_ID_here" _in both places_ in the markup with the **Application ID** that you copied when you created the **Office-Add-in-ASPNET-SSO** app registration. This is the same ID you used for the application ID in the appsettings.json file.
 
    > [!NOTE]
-   > The **\<Resource\>** value is the **Application ID URI** you set when you registered the add-in. The **\<Scopes\>** section is used only to generate a consent dialog box if the add-in is sold through AppSource.
+   > The `<Resource>` value is the **Application ID URI** you set when you registered the add-in. The `<Scopes>` section is used only to generate a consent dialog box if the add-in is sold through AppSource.
 
 1. Save and close the manifest file.
 
@@ -88,10 +88,10 @@ Use the following values for placeholders for the subsequent app registration st
 
 ### Get the access token and call the application server REST API
 
-1. In the **Office-Add-in-ASPNETCore-WebAPI** project, open the **wwwroot\js\HomeES6.js** file.  It already has code that ensures that Promises are supported, even in Internet Explorer 11, and an `Office.onReady` call to assign a handler to the add-in's only button.
+1. In the **Office-Add-in-ASPNETCore-WebAPI** project, open the **wwwroot\js\HomeES6.js** file.  It already has code that ensures that Promises are supported, even in the Trident (Internet Explorer 11) webview control, and an `Office.onReady` call to assign a handler to the add-in's only button.
 
    > [!NOTE]
-   > As the name suggests, the HomeES6.js uses JavaScript ES6 syntax because using `async` and `await` best shows the essential simplicity of the SSO API. When the localhost server is started, this file is transpiled to ES5 syntax so that the sample will support Internet Explorer 11.
+   > As the name suggests, the HomeES6.js uses JavaScript ES6 syntax because using `async` and `await` best shows the essential simplicity of the SSO API. When the localhost server is started, this file is transpiled to ES5 syntax so that the sample will support Trident.
 
 1. In the `getUserFileNames` function, replace `TODO 1` with the following code. About this code, note:
 
@@ -372,7 +372,7 @@ The server-side code is an ASP.NET Core server that provides REST APIs for the c
 
     :::image type="content" source="../images/select-host.png" alt-text="Choose the desired Office client application: Excel, PowerPoint, or Word.":::
 
-1. Press F5. Or select **Debug > Start Debugging**.
+1. Press <kbd>F5</kbd>. Or select **Debug** > **Start Debugging**.
 1. In the Office application, select the **Show Add-in** in the **SSO ASP.NET** group to open the task pane add-in.
 1. Select **Get OneDrive File Names**. If you're logged into Office with either a Microsoft 365 Education or work account, or a Microsoft account, and SSO is working as expected, the first 10 file and folder names in your OneDrive for Business are displayed on the task pane. If you are not logged in, or you are in a scenario that does not support SSO, or SSO is not working for any reason, you will be prompted to sign in. After you sign in, the file and folder names appear.
 

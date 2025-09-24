@@ -1,7 +1,7 @@
 ---
 title: Referencing the Office JavaScript API library
 description: Learn how to reference the Office JavaScript API library and type definitions in your add-in.
-ms.date: 02/18/2021
+ms.date: 01/14/2025
 ms.localizationpriority: medium
 ---
 
@@ -21,9 +21,34 @@ This will download and cache the Office JavaScript API files the first time your
 > [!IMPORTANT]
 > You must reference the Office JavaScript API from inside the `<head>` section of the page to ensure that the API is fully initialized prior to any body elements.
 
+## Office.js-specific web API behavior
+
+Office.js replaces the default [Window.history](https://developer.mozilla.org/docs/Web/API/History) methods of `replaceState` and `pushState` with `null`. This is done to [support older Microsoft webviews and Office versions](support-ie-11.md). If your add-in relies on these methods and doesn't need to run on Office versions that use the Internet Explorer 11 browser control, replace the Office.js library reference with the following workaround.
+
+```HTML
+<script type="text/javascript">
+    // Cache the history method values.
+    window._historyCache = {
+        replaceState: window.history.replaceState,
+        pushState: window.history.pushState
+    };
+</script>
+
+<script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+<script type="text/javascript">
+    // Restore the history method values after loading Office.js
+    window.history.replaceState = window._historyCache.replaceState;
+    window.history.pushState = window._historyCache.pushState;
+</script>
+
+```
+
+Thank you to [@stepper and the Stack Overflow community](https://stackoverflow.com/questions/42642863/office-js-nullifies-browser-history-functions-breaking-history-usage) for suggesting and verifying this workaround.
+
 ## API versioning and backward compatibility
 
-In the previous HTML snippet, the `/1/` in front of `office.js` in the CDN URL specifies the latest incremental release within version 1 of Office.js. Because the Office JavaScript API maintains backward compatibility, the latest release will continue to support API members that were introduced earlier in version 1. If you need to upgrade an existing project, see [Update the version of your Office JavaScript API and manifest schema files](update-your-javascript-api-for-office-and-manifest-schema-version.md). 
+In the previous HTML snippet, the `/1/` in front of `office.js` in the CDN URL specifies the latest incremental release within version 1 of Office.js. Because the Office JavaScript API maintains backward compatibility, the latest release will continue to support API members that were introduced earlier in version 1.
 
 If you plan to publish your Office Add-in from AppSource, you must use this CDN reference. Local references are only appropriate for internal, development, and debugging scenarios.
 
@@ -44,7 +69,13 @@ New JavaScript APIs are first introduced in "preview" and later become part of a
 
 [!INCLUDE [Information about using preview APIs](../includes/using-preview-apis-host.md)]
 
+## CDN references for other Microsoft 365 environments
+
+[!INCLUDE [Information about the China-specific CDN](../includes/21Vianet-CDN.md)]
+
 ## See also
 
 - [Understanding the Office JavaScript API](understanding-the-javascript-api-for-office.md)
 - [Office JavaScript API](../reference/javascript-api-for-office.md)
+- [Guidance for deploying Office Add-ins on government clouds](../publish/government-cloud-guidance.md)
+- [Microsoft software license terms for the Microsoft Office JavaScript (Office.js) API library](https://github.com/OfficeDev/office-js/blob/release/LICENSE.md)

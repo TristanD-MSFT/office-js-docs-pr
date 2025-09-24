@@ -1,7 +1,8 @@
----
+﻿---
 title: Office Add-ins glossary of terms
 description: A glossary of terms commonly used throughout the Office Add-ins documentation.
-ms.date: 09/14/2022
+ms.date: 02/12/2025
+ms.topic: glossary
 ms.localizationpriority: medium
 ---
 
@@ -17,7 +18,7 @@ Office Add-ins differ from VBA, COM, and VSTO add-ins because they offer cross-p
 
 ## add-in commands
 
-**Add-in commands** are UI elements, such as buttons and menus, that extend the Office UI for your add-in. When users select an add-in command element, they initiate actions such as running JavaScript code or displaying the add-in in a task pane. Add-in commands let your add-in look and feel like a part of Office, which gives users more confidence in your add-in. See [Add-in commands for Excel, PowerPoint, and Word](../design/add-in-commands.md) and [Add-in commands for Outlook](../outlook/add-in-commands-for-outlook.md) to learn more.
+**Add-in commands** are UI elements, such as buttons and menus, that extend the Office UI for your add-in. When users select an add-in command element, they initiate actions such as running JavaScript code or displaying the add-in in a task pane. Add-in commands let your add-in look and feel like a part of Office, which gives users more confidence in your add-in. See [Add-in commands](../design/add-in-commands.md) to learn more.
 
 See also: [ribbon, ribbon button](#ribbon-ribbon-button).
 
@@ -37,13 +38,13 @@ See also: [Common API](#common-api).
 
 **Client** typically refers to an Office application. The Office applications, or clients, that support Office Add-ins are Excel, OneNote, Outlook, PowerPoint, Project, and Word.
 
-See also: [application](#application), [host](#host), [Office application, Office client](#office-application-office-client).
+See also: [application](#application), [host](#host), [Office application, Office client](#office-application-office-client), [Office desktop application, Office desktop client, desktop client, desktop](#office-desktop-application-office-desktop-client-desktop-client-desktop).
 
 ## Common API
 
 Common APIs are used to access features such as UI, dialogs, and client settings that are common across multiple Office applications. This API model uses [callbacks](https://developer.mozilla.org/docs/Glossary/Callback_function), which allow you to specify only one operation in each request sent to the Office application.
 
-Common APIs were introduced with Office 2013 and are used to interact with Office 2013 or later. Some Common APIs are legacy APIs from the early 2010s. Excel, PowerPoint, and Word all have Common API functionality, but most of this functionality has been replaced or superseded by the application-specific API model. The application-specific APIs are preferred when possible.
+Common APIs were introduced with Office 2013. Some Common APIs are legacy APIs from the early 2010s. Excel, PowerPoint, and Word all have Common API functionality, but most of this functionality has been replaced or superseded by the application-specific API model. The application-specific APIs are preferred when possible.
 
 Other Common APIs, such as the Common APIs related to Outlook, UI, and authentication, are the modern and preferred APIs for these purposes. For details about the Common API object model, see [Common JavaScript API object model](../develop/office-javascript-api-object-model.md).
 
@@ -67,6 +68,8 @@ A **content delivery network** or **CDN** is a distributed network of servers an
 
 A **custom function** is a user-defined function that is packaged with an Excel add-in. Custom functions enable developers to add new functions, beyond the typical Excel features, by defining those functions in JavaScript as part of an add-in. Users within Excel can access custom functions just as they would any native function in Excel. See [Create custom functions in Excel](../excel/custom-functions-overview.md) to learn more.
 
+[!include[Excel custom functions definition](../includes/excel-custom-functions-definition.md)]
+
 ## custom functions runtime
 
 A **custom functions runtime** is a [JavaScript-only runtime](../testing/runtimes.md#javascript-only-runtime) that runs custom functions on some combinations of Office host and platform. It has no UI and cannot interact with Office.js APIs. If your add-in only has custom functions, this is a good lightweight runtime to use. If your custom functions need to interact with the task pane or Office.js APIs, configure a [shared runtime](../testing/runtimes.md#shared-runtime). See [Configure your Office Add-in to use a shared runtime](../develop/configure-your-add-in-to-use-a-shared-runtime.md) to learn more.
@@ -79,17 +82,41 @@ An add-in that contains a custom function, but no UI such as a task pane. The cu
 
 See also: [custom function](#custom-function), [custom functions runtime](#custom-functions-runtime).
 
+## function command
+
+Function commands are buttons or menu items that run JavaScript functions. Unlike task pane commands, function commands don't display any user interface other than the command button or menu item itself.
+
+See also: [add-in commands](#add-in-commands).
+
 ## host
 
-**\<Host\>** typically refers to an Office application. The Office applications, or hosts, that support Office Add-ins are Excel, OneNote, Outlook, PowerPoint, Project, and Word.
+`<Host>` typically refers to an Office application. The Office applications, or hosts, that support Office Add-ins are Excel, OneNote, Outlook, PowerPoint, Project, and Word.
 
 See also: [application](#application), [client](#client), [Office application, Office client](#office-application-office-client).
+
+## Long-Term Service Channel (LTSC)
+
+**LTSC** refers to the perpetual version of Office available through a volume-licensing agreement between Microsoft and your company.
+
+See also: [perpetual](#perpetual), [volume-licensed, volume-licensed perpetual, volume licensing](#volume-licensed-volume-licensed-perpetual-volume-licensing).
 
 ## Office application, Office client
 
 **Office client** refers to an Office application. The Office applications, or clients, that support Office Add-ins are Excel, OneNote, Outlook, PowerPoint, Project, and Word.
 
-See also: [application](#application), [client](#client), [host](#host).
+See also: [application](#application), [client](#client), [host](#host), [Office desktop application, Office desktop client, desktop client, desktop](#office-desktop-application-office-desktop-client-desktop-client-desktop).
+
+## Office cache
+
+The **Office cache** stores resources and data used by Office Add-ins. This cache prevents an add-in from repeatedly downloding the resources it needs, thereby improving its performance.
+
+See also: [web cache](#web-cache), [Wef cache](#wef-cache).
+
+## Office desktop application, Office desktop client, desktop client, desktop
+
+**Office desktop client** refers to an Office application that runs natively on Windows or on Mac. The Office desktop clients that support Office Add-ins are Excel on Windows and on Mac, Outlook on Windows ([new](https://support.microsoft.com/office/656bb8d9-5a60-49b2-a98b-ba7822bc7627) and classic) and on Mac, PowerPoint on Windows and on Mac, Project on Windows, and Word on Windows and on Mac.
+
+See also: [application](#application), [client](#client), [Office application, Office client](#office-application-office-client).
 
 ## perpetual
 
@@ -97,7 +124,7 @@ See also: [application](#application), [client](#client), [host](#host).
 
 Other Microsoft content may use the term **non-subscription** to represent this concept.
 
-See also: [retail, retail perpetual](#retail-retail-perpetual), [volume-licensed, volume-licensed perpetual, volume licensing](#volume-licensed-volume-licensed-perpetual-volume-licensing)
+See also: [retail, retail perpetual](#retail-retail-perpetual), [volume-licensed, volume-licensed perpetual, volume licensing](#volume-licensed-volume-licensed-perpetual-volume-licensing).
 
 ## platform
 
@@ -119,7 +146,7 @@ See also: [tutorial](#tutorial).
 
 Other Microsoft content may use the term **one-time purchase** or **consumer** to represent this concept.
 
-See also: [perpetual](#perpetual)
+See also: [perpetual](#perpetual).
 
 ## ribbon, ribbon button
 
@@ -127,13 +154,19 @@ A **ribbon** is a command bar that organizes an application's features into a se
 
 ## runtime
 
-A **runtime** is the host environment (including a JavaScript engine and usually also an HTML rendering engine) that the add-in runs in. In Office on Windows and Office on Mac, the runtime is an embedded browser control (or webview) such as Internet Explorer, Edge Legacy, Edge WebView2, or Safari. Different parts of an add-in run in separate runtimes. For example, add-in commands, custom functions, and task pane code typically use separate runtimes unless you configure a [shared runtime](../testing/runtimes.md#shared-runtime). See [Runtimes in Office Add-ins](../testing/runtimes.md) and [Browsers used by Office Add-ins](../concepts/browsers-used-by-office-web-add-ins.md) for more information.
+A **runtime** is the host environment (including a JavaScript engine and usually also an HTML rendering engine) that the add-in runs in. In Office on Windows and Office on Mac, the runtime is an embedded browser control (or webview) such as Internet Explorer, Edge Legacy, Edge WebView2, or Safari. Different parts of an add-in run in separate runtimes. For example, add-in commands, custom functions, and task pane code typically use separate runtimes unless you configure a [shared runtime](../testing/runtimes.md#shared-runtime). See [Runtimes in Office Add-ins](../testing/runtimes.md) and [Browsers and webview controls used by Office Add-ins](../concepts/browsers-used-by-office-web-add-ins.md) for more information.
 
 See also: [custom functions runtime](#custom-functions-runtime), [shared runtime](#shared-runtime), [webview](#webview).
 
+## setless API
+
+An API in the Office JavaScript Library that is not included in any requirement set.
+
+See also [requirement set](#requirement-set).
+
 ## shared runtime
 
-A **shared runtime**, enables all code in your add-in, including task pane, add-in commands, and custom functions, to run in the same runtime and continue running even when the task pane is closed. See [shared runtime](../testing/runtimes.md#shared-runtime) and [Tips for using the shared runtime in your Office Add-in](https://devblogs.microsoft.com/microsoft365dev/tips-for-using-the-shared-javascript-runtime-in-your-office-add-in%e2%80%af/) to learn more.
+A **shared runtime**, enables code in your task pane, function commands, and custom functions, to run in the same runtime and continue running even when the task pane is closed. Code in dialogs generally runs in a separate runtime even when the add-in is configured to use a shared runtime. See [shared runtime](../testing/runtimes.md#shared-runtime) and [Tips for using the shared runtime in your Office Add-in](https://devblogs.microsoft.com/microsoft365dev/tips-for-using-the-shared-javascript-runtime-in-your-office-add-in%e2%80%af/) to learn more.
 
 See also: [custom functions runtime](#custom-functions-runtime), [runtime](#runtime).
 
@@ -159,7 +192,7 @@ See also: [quick start](#quick-start).
 
 Other Microsoft content may use the term **commercial** to represent this concept.
 
-See also: [perpetual](#perpetual)
+See also: [Long-Term Service Channel (LTSC)](#long-term-service-channel-ltsc), [perpetual](#perpetual).
 
 ## web add-in
 
@@ -167,11 +200,23 @@ See also: [perpetual](#perpetual)
 
 See also: [add-in](#add-in).
 
+## web cache
+
+The **web cache** temporarily stores web-based resources and data used by an individual Office Add-in.
+
+See also: [Office cache](#office-cache), [Wef cache](#wef-cache).
+
 ## webview
 
 A **webview** is an element or view that displays web content inside an application. Content add-ins and task panes both contain embedded web browsers and are examples of webviews in Office Add-ins.
 
 See also: [content add-in](#content-add-in), [task pane](#task-pane).
+
+## Wef cache
+
+The **Wef cache** locally stores resources and data for all installed Office Add-ins.
+
+See also: [Office cache](#office-cache), [web cache](#web-cache).
 
 ## XLL
 
@@ -179,7 +224,7 @@ An **XLL** add-in is an Excel add-in file that provides user-defined functions a
 
 See also: [custom function](#custom-function).
 
-## Yeoman generator, yo office
+## Yeoman generator, Yo Office
 
 The [Yeoman generator for Office Add-ins](../develop/yeoman-generator-overview.md) uses the open source [Yeoman](https://github.com/yeoman/yo) tool to generate an Office Add-in via the command line. `yo office` is the command that runs the Yeoman generator for Office Add-ins. The Office Add-ins quick starts and tutorials use the Yeoman generator.
 

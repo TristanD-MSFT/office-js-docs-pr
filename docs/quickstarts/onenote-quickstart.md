@@ -1,8 +1,8 @@
 ---
 title: Build your first OneNote task pane add-in
 description: Learn how to build a simple OneNote task pane add-in by using the Office JS API.
-ms.date: 07/12/2022
-ms.prod: onenote
+ms.date: 12/11/2023
+ms.service: onenote
 ms.localizationpriority: high
 ---
 
@@ -12,7 +12,6 @@ In this article, you'll walk through the process of building a OneNote task pane
 
 ## Prerequisites
 
-[!include[Set up requirements](../includes/set-up-dev-environment-beforehand.md)]
 [!include[Yeoman generator prerequisites](../includes/quickstart-yo-prerequisites.md)]
 
 ## Create the add-in project
@@ -27,8 +26,6 @@ In this article, you'll walk through the process of building a OneNote task pane
 ![The prompts and answers for the Yeoman generator in a command line interface.](../images/yo-office-onenote.png)
 
 After you complete the wizard, the generator creates the project and installs supporting Node components.
-
-[!include[Yeoman generator next steps](../includes/yo-office-next-steps.md)]
 
 ## Explore the project
 
@@ -83,7 +80,7 @@ try {
 
 1. In [OneNote on the web](https://www.onenote.com/notebooks), open a notebook and create a new page.
 
-1. Choose **Insert > Office Add-ins** to open the Office Add-ins dialog.
+1. Choose **Insert** > **Office Add-ins** to open the Office Add-ins dialog.
 
     - If you're signed in with your consumer account, select the **MY ADD-INS** tab, and then choose **Upload My Add-in**.
 
@@ -95,11 +92,21 @@ try {
 
 1. In the Upload Add-in dialog, browse to **manifest.xml** in your project folder, and then choose **Upload**.
 
-1. From the **Home** tab, choose the **Show Taskpane** button in the ribbon. The add-in task pane opens in an iFrame next to the OneNote page.
+1. From the **Home** tab, choose the **Show Taskpane** button on the ribbon. The add-in task pane opens in an iFrame next to the OneNote page.
 
 1. At the bottom of the task pane, choose the **Run** link to set the page title and add an outline to the body of the page.
 
     ![The add-in built from this walkthrough, where the Show Taskpane ribbon button was used to open the task pane in OneNote.](../images/onenote-first-add-in-4.png)
+
+1. When you want to stop the local web server and uninstall the add-in, follow these instructions:
+
+    - To stop the server, run the following command.
+
+        ```command&nbsp;line
+        npm stop
+        ```
+
+    - To uninstall the sideloaded add-in, see [Remove a sideloaded add-in](../testing/sideload-office-add-ins-for-testing.md#remove-a-sideloaded-add-in).
 
 ## Next steps
 
@@ -108,11 +115,13 @@ Congratulations, you've successfully created a OneNote task pane add-in! Next, l
 > [!div class="nextstepaction"]
 > [OneNote JavaScript API programming overview](../onenote/onenote-add-ins-programming-overview.md)
 
+[!include[The common troubleshooting section for all Yo Office quick starts](../includes/quickstart-troubleshooting-yo.md)]
+
 ## See also
 
 - [Office Add-ins platform overview](../overview/office-add-ins.md)
 - [Develop Office Add-ins](../develop/develop-overview.md)
 - [OneNote JavaScript API programming overview](../onenote/onenote-add-ins-programming-overview.md)
 - [OneNote JavaScript API reference](../reference/overview/onenote-add-ins-javascript-reference.md)
-- [Rubric Grader sample](https://github.com/OfficeDev/OneNote-Add-in-Rubric-Grader)
+- [Sample: Rubric grader task pane add-in for OneNote on the web](https://github.com/OfficeDev/Office-Add-in-samples/tree/main/Samples/onenote-add-in-rubric-grader)
 - [Using Visual Studio Code to publish](../publish/publish-add-in-vs-code.md#using-visual-studio-code-to-publish)

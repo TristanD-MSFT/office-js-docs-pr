@@ -6,7 +6,7 @@ summary: With Outlook add-ins, you can use familiar web technologies such as HTM
 metadata:
   title: Outlook add-ins documentation # Required; page title displayed in search results. Include the brand. < 60 chars.
   description: Resources for learning about Outlook add-ins. # Required; article description that is displayed in search results. < 160 chars.
-  ms.prod: outlook #Required
+  ms.service: outlook #Required
   ms.topic: landing-page # Required
   ms.date: 10/10/2022 #Required; mm/dd/yyyy format.
   ms.localizationpriority: high
@@ -26,9 +26,7 @@ landingContent:
       - linkListType: quickstart
         links:
           - text: Build your first Outlook add-in
-            url: ../quickstarts/outlook-quickstart.md
-          - text: Build your first Outlook add-in with a Teams manifest (preview)
-            url: ../quickstarts/outlook-quickstart-json-manifest.md
+            url: ../quickstarts/outlook-quickstart-yo.md
           - text: Explore Office JavaScript API using Script Lab
             url: ../overview/explore-with-script-lab.md
       - linkListType: how-to-guide
@@ -38,7 +36,7 @@ landingContent:
           - text: Navigate and use the Mailbox requirement sets
             url: /javascript/api/requirement-sets/outlook/outlook-api-requirement-sets
           - text: Build an event-based add-in
-            url: autolaunch.md
+            url: ../develop/event-based-activation.md
           - text: Use Microsoft Graph to extend your add-in's capabilities
             url: /graph/overview
           - text: Test and debug an Outlook add-in
@@ -68,9 +66,9 @@ landingContent:
       - linkListType: reference
         links:
           - text: Ask questions
-            url: /answers/topics/office-addins-dev.html
+            url: https://stackoverflow.com/questions/tagged/outlook-web-addins
           - text: Request features
-            url: https://techcommunity.microsoft.com/t5/microsoft-365-developer-platform/idb-p/Microsoft365DeveloperPlatform
+            url: https://aka.ms/m365dev-suggestions
           - text: Report issues
             url: https://github.com/officedev/office-js/issues
           - text: Office Add-ins additional resources

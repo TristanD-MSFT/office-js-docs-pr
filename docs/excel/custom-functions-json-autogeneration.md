@@ -1,21 +1,77 @@
 ---
 title: Autogenerate JSON metadata for custom functions
 description: Use JSDoc tags to dynamically create your custom functions JSON metadata.
-ms.date: 07/18/2022
+ms.date: 06/19/2025
 ms.localizationpriority: medium
 ---
 
 # Autogenerate JSON metadata for custom functions
 
-When an Excel custom function is written in JavaScript or TypeScript, [JSDoc tags](https://jsdoc.app/) are used to provide extra information about the custom function. The JSDoc tags are then used at build time to create the JSON metadata file. Using JSDoc tags saves you from the effort of [manually editing the JSON metadata file](custom-functions-json.md).
+When an Excel custom function is written in JavaScript or TypeScript, [JSDoc tags](https://jsdoc.app/) are used to provide extra information about the custom function. We provide a [Webpack](https://webpack.js.org/) plugin that uses these JSDoc tags to automatically create the JSON metadata file at build time. Using the plugin saves you from the effort of [manually editing the JSON metadata file](custom-functions-json.md).
 
 [!include[Excel custom functions note](../includes/excel-custom-functions-note.md)]
+
+## CustomFunctionsMetadataPlugin
+
+The plugin is [CustomFunctionsMetadataPlugin](https://github.com/OfficeDev/Office-Addin-Scripts/blob/master/packages/custom-functions-metadata-plugin/README.md). To install and configure it, use the following steps.
+
+> [!NOTE]
+> 
+> - The tool can be used only in a NodeJS-based project.
+> - These instructions assume that your project uses [Webpack](https://webpack.js.org/) and that you have it installed and configured.
+> - If your custom function add-in project is created with the [Yeoman generator for Office Add-ins](../develop/yeoman-generator-overview.md), Webpack is installed and all of these steps are done automatically, but when applicable, you must do the steps in [Multiple custom function source files](#multiple-custom-function-source-files) manually.
+
+1. Open a Command Prompt or bash shell and, in the root of the project, run `npm install custom-functions-metadata-plugin`.
+1. Open the webpack.config.js file and add the following line at the top: `const CustomFunctionsMetadataPlugin = require("custom-functions-metadata-plugin");`.
+1. Scroll down to the `plugins` array and add the following to the top of the array. Change the `input` path and filename as needed to match your project, but the `output` value must be `"functions.json"`. If you're using TypeScript, use the \*.ts source file name, *not* the transpiled \*.js file.
+
+   ```js
+   new CustomFunctionsMetadataPlugin({
+      output: "functions.json",
+      input: "./src/functions/functions.js", 
+   }),
+   ```
+
+### Multiple custom function source files
+
+If, and only if, you have organized your custom functions into multiple source files, there are additional steps.
+
+1. In the webpack.config.js file, replace the string value of `input` with an array of string URLs that point to each of the files. The following is an example:
+
+   ```js
+   new CustomFunctionsMetadataPlugin({
+      output: "functions.json",
+      input: [
+               "./src/functions/someFunctions.js", 
+               "./src/functions/otherFunctions.js"
+             ], 
+   }),
+   ```
+
+1. Scroll to the `entry.functions` property, and replace its value with the same array you used in the preceding step. The following is an example:
+
+   ```js
+   entry: {
+      polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
+      taskpane: ["./src/taskpane/taskpane.js", "./src/taskpane/taskpane.html"],
+      functions: [
+               "./src/functions/someFunctions.js", 
+               "./src/functions/otherFunctions.js"
+             ],
+    },
+   ```
+
+## Run the tool
+
+You don't have to do anything to run the tool. When Webpack runs, it creates the functions.json file and puts it in memory in development mode, or in the /dist folder in production mode.
+
+## Basics of JSDoc tags
 
 Add the `@customfunction` tag in the code comments for a JavaScript or TypeScript function to mark it as a custom function.
 
 The function parameter types may be provided using the [@param](#param) tag in JavaScript, or from the [Function type](https://www.typescriptlang.org/docs/handbook/functions.html) in TypeScript. For more information, see the [@param](#param) tag and [Types](#types) sections.
 
-## Add a description to a function
+### Add a description to a function
 
 The description is displayed to the user as help text when they need help to understand what your custom function does. The description doesn't require any specific tag. Just enter a short text description in the JSDoc comment. In general the description is placed at the start of the JSDoc comment section, but it will work no matter where it is placed.
 
@@ -31,13 +87,17 @@ In the following example, the phrase "Calculates the volume of a sphere." is the
  */
 ```
 
-## JSDoc Tags
+## Supported JSDoc tags
 
 The following JSDoc tags are supported in Excel custom functions.
 
 - [@cancelable](#cancelable)
+- [@capturesCallingObject](#capturesCallingObject)
+- [@customenum](#customenum) *{type}*
 - [@customfunction](#customfunction) *id* *name*
+- [@excludeFromAutoComplete](#excludeFromAutoComplete)
 - [@helpurl](#helpurl) *url*
+- [@linkedEntityLoadService](#linkedEntityLoadService)
 - [@param](#param) *{type}* *name* *description*
 - [@requiresAddress](#requiresAddress)
 - [@requiresParameterAddresses](#requiresParameterAddresses)
@@ -57,6 +117,20 @@ The last function parameter must be of type `CustomFunctions.CancelableInvocatio
 If the last function parameter is of type `CustomFunctions.CancelableInvocation`, it will be considered `@cancelable` even if the tag isn't present.
 
 A function can't have both `@cancelable` and `@streaming` tags.
+
+<a id="capturesCallingObject"></a>
+
+### @capturesCallingObject
+
+This tag works with Excel [data types](excel-data-types-overview.md). It specifies that the data type being referenced by the custom function is passed as the first argument to the custom function. For more information, see [Reference the entity value as a calling object](excel-add-ins-dot-functions.md#reference-the-entity-value-as-a-calling-object).
+
+<a id="customenum"></a>
+
+### @customenum
+
+Syntax: @customenum *{type}*
+
+This tag indicates that a set of values is a custom enum. For more information, see [Create custom enums for your custom functions](custom-functions-custom-enums.md).
 
 <a id="customfunction"></a>
 
@@ -127,6 +201,14 @@ In the following example, the phrase "A function that adds two numbers" is the d
  */
 ```
 
+<a id="excludeFromAutoComplete"></a>
+
+### @excludeFromAutoComplete
+
+The `@excludeFromAutoComplete` tag ensures that the custom function doesn't appear in the formula AutoComplete menu in Excel. For more information, see [Exclude custom functions from the Excel UI](excel-add-ins-dot-functions.md#exclude-custom-functions-from-the-excel-ui).
+
+A function can’t have both `@excludeFromAutoComplete` and `@linkedEntityLoadService` tags.
+
 <a id="helpurl"></a>
 
 ### @helpurl
@@ -135,16 +217,24 @@ Syntax: @helpurl *url*
 
 The provided *url* is displayed in Excel.
 
-In the following example, the `helpurl` is `www.contoso.com/weatherhelp`.
+In the following example, the `helpurl` is `http://www.contoso.com/weatherhelp`.
 
 ```js
 /**
  * A function which streams the temperature in a town you specify.
  * @customfunction getTemperature
- * @helpurl www.contoso.com/weatherhelp
+ * @helpurl http://www.contoso.com/weatherhelp
  * ...
  */
 ```
+
+<a id="linkedEntityLoadService"></a>
+
+### @linkedEntityLoadService
+
+The `@linkedEntityLoadService` tag designates that the function is a linked entity load service that returns [linked entity cell values](excel-data-types-linked-entity-cell-values.md) for linked entity IDs requested by Excel.
+
+A function can’t have both `@excludeFromAutoComplete` and `@linkedEntityLoadService` tags.
 
 <a id="param"></a>
 
@@ -339,6 +429,22 @@ By specifying a parameter type, Excel will convert values into that type before 
 
 A single value may be represented using one of the following types: `boolean`, `number`, `string`.
 
+### Cell value type
+
+Use the `type` subfield `cellValueType` to specify that a custom function accept and return Excel data types. The `type` value must be `any` to use the `cellValueType` subfield. Accepted `cellValueType` values are:
+
+- `Excel.CellValue`
+- `Excel.BooleanCellValue`
+- `Excel.DoubleCellValue`
+- `Excel.EntityCellValue`
+- `Excel.ErrorCellValue`
+- `Excel.LinkedEntityCellValue`
+- `Excel.LocalImageCellValue`
+- `Excel.StringCellValue`
+- `Excel.WebImageCellValue`
+
+For a code sample using the `Excel.EntityCellValue` type, see [Input an entity value](custom-functions-data-types-concepts.md#input-an-entity-value).
+
 ### Matrix type
 
 Use a two-dimensional array type to have the parameter or return value be a matrix of values. For example, the type `number[][]` indicates a matrix of numbers and `string[][]` indicates a matrix of strings.
@@ -359,7 +465,7 @@ Any other type will be treated as an error.
 
 ## Next steps
 
-Learn about [naming conventions for custom functions](custom-functions-naming.md). Alternatively, learn how to [localize your functions](custom-functions-localize.md) which requires you to [write your JSON file by hand](custom-functions-json.md).
+Learn about [naming and localization for custom functions](custom-functions-naming.md).
 
 ## See also
 

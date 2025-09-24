@@ -23,19 +23,15 @@ We also encourage you to fork, make the fix, and do a pull request of your propo
 
 If your issue is not related to the Office Add-ins documentation, please post it to one of the following channels instead.
 
-- To ask a question about using the Office.js API, post your question to Stack Overflow and tag it with the "office-js" tag (http://stackoverflow.com/questions/tagged/office-js).
-- To report an issue with the Office.js API or platform, create the issue in the OfficeDev/office-js repository (https://github.com/OfficeDev/office-js), which members of the product team monitor for customer-reported issues.
-- To submit a feature request for the Office.js API or platform, post your idea to the [Microsoft 365 Developer Platform Tech Community](https://techcommunity.microsoft.com/t5/microsoft-365-developer-platform/idb-p/Microsoft365DeveloperPlatform), or if the feature request already exists there, add your vote for it.
+- To ask a question about using the Office.js API, post your question to Stack Overflow and tag it with the "office-js" tag (https://stackoverflow.com/questions/tagged/office-js).
+- To report an issue with the Office.js API or platform, create the issue in the OfficeDev/office-js repository (https://github.com/OfficeDev/office-js/issues), where members of the product team monitor for customer-reported issues.
+- To submit a feature request for the Office.js API or platform, post your idea to the [Microsoft 365 Developer Platform Tech Community](https://aka.ms/m365dev-suggestions), or if the feature request already exists there, add your vote for it.
 
 ## Join the Microsoft 365 Developer Program
 
-Get a free sandbox, tools, and other resources you need to build solutions for the Microsoft 365 platform.
+Join the [Microsoft 365 Developer Program](https://aka.ms/m365devprogram) to get resources and information to help you build solutions for the Microsoft 365 platform, including recommendations tailored to your areas of interest.
 
-- [Free developer sandbox](https://developer.microsoft.com/microsoft-365/dev-program#Subscription) Get a free, renewable 90-day Microsoft 365 E5 developer subscription.
-- [Sample data packs](https://developer.microsoft.com/microsoft-365/dev-program#Sample) Automatically configure your sandbox by installing user data and content to help you build your solutions.
-- [Access to experts](https://developer.microsoft.com/microsoft-365/dev-program#Experts) Access community events to learn from Microsoft 365 experts.
-- [Personalized recommendations](https://developer.microsoft.com/microsoft-365/dev-program#Recommendations) Find developer resources quickly from your personalized dashboard.
-
+You might also qualify for a free developer subscription that's renewable for 90 days and comes configured with sample data; for details, see the [FAQ](https://learn.microsoft.com/office/developer-program/microsoft-365-developer-program-faq#who-qualifies-for-a-microsoft-365-e5-developer-subscription-).
 
 ## Copyright
 

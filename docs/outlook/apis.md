@@ -1,7 +1,8 @@
----
+﻿---
 title: Outlook add-in APIs
 description: Learn how to reference the Outlook add-in APIs and declare permissions in your Outlook add-in.
-ms.date: 10/03/2022
+ms.date: 01/07/2025
+ms.topic: overview
 ms.localizationpriority: medium
 ---
 
@@ -43,12 +44,12 @@ if (item.somePropertyOrFunction) {
 > [!NOTE]
 > These checks are not needed for any APIs that are in the requirement set version specified in the manifest.
 
-Specify the minimum requirement set that supports the critical set of APIs for your scenario, without which features of your add-in won't work. You specify the requirement set in the manifest. The markup varies depending on the manifest that you are using. 
+Specify the minimum requirement set that supports the critical set of APIs for your scenario, without which features of your add-in won't work. You specify the requirement set in the manifest. The markup varies depending on the manifest that you are using.
 
-- **XML manifest**:  Use the **\<Requirements\>** element. Note that the **\<Methods\>** child element of **\<Requirements\>** isn't supported in Outlook add-ins, so you can't declare support for specific methods.
-- **Teams manifest (preview)**: Use the "extensions.capabilities" property. 
+- **Add-in only manifest**:  Use the `<Requirements>` element. Note that the `<Methods>` child element of `<Requirements>` isn't supported in Outlook add-ins, so you can't declare support for specific methods.
+- **Unified manifest for Microsoft 365**: Use the `"extensions.capabilities"` property.
 
-For more information, see [Outlook add-in manifests](manifests.md),  and [Understanding Outlook API requirement sets](/javascript/api/requirement-sets/outlook/outlook-api-requirement-sets).
+For more information, see [Office Add-in manifests](../develop/add-in-manifests.md), and [Understanding Outlook API requirement sets](/javascript/api/requirement-sets/outlook/outlook-api-requirement-sets).
 
 ## Permissions
 
@@ -62,7 +63,7 @@ There are four levels of permissions; **restricted**, **read item**, **read/writ
 
 ## See also
 
-- [Outlook add-in manifests](manifests.md)
+- [Office Add-in manifests](../develop/add-in-manifests.md)
 - [Understanding Outlook API requirement sets](/javascript/api/requirement-sets/outlook/outlook-api-requirement-sets)
-- [Understanding Outlook add-in permissions](understanding-outlook-add-in-permissions.md).
+- [Understanding Outlook add-in permissions](understanding-outlook-add-in-permissions.md)
 - [Privacy and security for Office Add-ins](../concepts/privacy-and-security.md)

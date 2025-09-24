@@ -1,40 +1,27 @@
----
-title: Teams manifest for Office Add-ins (preview)
-description: Get an overview of the preview JSON manifest.
-ms.date: 06/15/2022
+﻿---
+title: Compare the add-in only manifest with the unified manifest for Microsoft 365
+description: Get a comparison of the add-in only manifest with the unified manifest for Microsoft 365.
+ms.topic: overview
+ms.date: 09/02/2025
 ms.localizationpriority: high
 ---
 
-# Teams manifest for Office Add-ins (preview)
+# Compare the add-in only manifest with the unified manifest for Microsoft 365
 
-Microsoft is making a number of improvements to the Microsoft 365 developer platform. These improvements provide more consistency in the development, deployment, installation, and administration of all types of extensions of Microsoft 365, including Office Add-ins. These changes are compatible with existing add-ins.
+This article is intended to help readers who are familiar with the add-in only manifest understand the unified manifest by comparing the two. Readers should also see [Office Add-ins with the unified manifest for Microsoft 365](unified-manifest-overview.md).
 
-One important improvement we are working on is the ability to create a single unit of distribution for all your Microsoft 365 extensions by using the same manifest format and schema, based on the current JSON-formatted Teams manifest.
+[!include[Unified manifest host application support note](../includes/unified-manifest-support-note.md)]
 
-We've taken an important first step toward these goals by making it possible for you to create Outlook add-ins, running on Windows only, with a version of the Teams JSON manifest.
+## Schemas and general points
 
-> [!NOTE]
-> The new manifest is available for preview and is subject to change based on feedback. We encourage experienced add-in developers to experiment with it. The preview manifest should not be used in production add-ins.
+There is just one schema for the [unified manifest](https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json), in contrast to the add-in only manifest which has a total of seven [schemas](/openspecs/office_file_formats/ms-owemxml/c6a06390-34b8-4b42-82eb-b28be12494a8).
 
-During the early preview period, the following limitations apply.
+## Conceptual mapping of the unified and add-in only manifests
 
-- The preview version of the Teams manifest only supports Outlook add-ins and only in Office downloaded from a Microsoft 365 subscription then installed on Windows. We're working on extending support to Excel, PowerPoint, and Word.
-- It isn't yet possible to combine, and sideload, an add-in with a Teams app, such as a Teams personal tab, or other Microsoft 365 extension types. In the coming months, we will continue to extend the preview to support these scenarios and provide additional tools to update manifests to the preview format.
+This section describes the unified manifest for readers who are familiar with the add-in only manifest. Some points to keep in mind:
 
-> [!TIP]
-> Ready to get started with the preview Teams manifest? Begin with [Build an Outlook add-in with a Teams manifest (preview)](../quickstarts/outlook-quickstart-json-manifest.md).
-
-## Overview of the JSON manifest
-
-### Schemas and general points
-
-There is just one schema for the [preview JSON manifest](/microsoftteams/platform/resources/dev-preview/developer-preview-intro), in contrast to the current XML manifest which has a total of seven [Schemas](/openspecs/office_file_formats/ms-owemxml/c6a06390-34b8-4b42-82eb-b28be12494a8).  
-
-### Conceptual mapping of the preview JSON and current XML manifests
-
-This section describes the preview JSON manifest for readers who are familiar with the current XML manifest. Some points to keep in mind: 
-
-- JSON does not distinguish between attribute and element value like XML does. Typically, the JSON that maps to an XML element makes both the element value and each of the attributes a child property. The following example shows some XML markup and its JSON equivalent.
+- The unified manifest is JSON-formatted.
+- JSON doesn't distinguish between attribute and element value like XML does. Typically, the JSON that maps to an XML element makes both the element value and each of the attributes a child property. The following example shows some XML markup and its JSON equivalent.
   
   ```xml
   <MyThing color="blue">Some text</MyThing>
@@ -46,7 +33,8 @@ This section describes the preview JSON manifest for readers who are familiar wi
       "text": "Some text"
   }
   ```
-- There are many places in the current XML manifest where an element with a plural name has children with the singular version of the same name. For example, the markup to configure a custom menu includes an **\<Items\>** element which can have multiple **\<Item\>** element children. The JSON equivalent of these plural elements is a property with an array as its value. The members of the array are *anonymous* objects, not properties named "item" or "item1", "item2", etc. The following is an example.
+
+- There are many places in the add-in only manifest where an element with a plural name has children with the singular version of the same name. For example, the markup to configure a custom menu includes an `<Items>` element which can have multiple `<Item>` element children. The JSON equivalent of these plural elements is a property with an array as its value. The members of the array are *anonymous* objects, not properties named "item" or "item1", "item2", etc. The following is an example.
 
   ```json
   "items": [
@@ -59,372 +47,67 @@ This section describes the preview JSON manifest for readers who are familiar wi
   ]
   ```
 
-#### Top-level structure
+### Top-level structure
 
-The root level of the preview JSON manifest, which roughly corresponds to the **\<OfficeApp\>** element in the current XML manifest, is an anonymous object. 
+The root level of the unified manifest, which roughly corresponds to the `<OfficeApp>` element in the add-in only manifest, is an anonymous object.
 
-The children of **\<OfficeApp\>** are commonly divided into two notional categories. The **\<VersionOverrides\>** element is one category. The other consists of all the other children of **\<OfficeApp\>**, which are collectively referred to as the base manifest. So too, the preview JSON manifest has a similar division. There is a top-level "extension" property that roughly corresponds in its purposes and child properties to the **\<VersionOverrides\>** element. The preview JSON manifest also has over 10 other top-level properties that collectively serve the same purposes as the base manifest of the XML manifest. These other properties can be thought of collectively as the base manifest of the JSON manifest. 
+The children of `<OfficeApp>` are commonly divided into two notional categories. The `<VersionOverrides>` element is one category. The other consists of all the other children of `<OfficeApp>`, which are collectively referred to as the base manifest. So too, the unified manifest has a similar division. There is a top-level [`"extensions"`](/microsoft-365/extensibility/schema/root#extensions) property that roughly corresponds in its purposes and child properties to the `<VersionOverrides>` element. The unified manifest also has over 10 other top-level properties that collectively serve the same purposes as the base manifest of the add-in only manifest. These other properties can be thought of collectively as the base manifest of the unified manifest.
+
+### Base manifest
+
+The base manifest properties specify characteristics of the add-in that *any* type of extension of Microsoft 365 is expected to have. This includes Teams tabs and message extensions, not just Office add-ins. These characteristics include a public name and a unique ID. The following table shows a mapping of some critical top-level properties in the unified manifest to the XML elements in the current manifest, where the mapping principle is the *purpose* of the markup.
+
+|JSON property|Purpose|XML elements|Comments|
+|:-----|:-----|:-----|:-----|
+|"$schema"| Identifies the manifest schema. | attributes of `<OfficeApp>` and `<VersionOverrides>` |*None* |
+|[`"id"`](/microsoft-365/extensibility/schema/root#id)| GUID of the add-in. | `<Id>`|*None* |
+|[`"version"`](/microsoft-365/extensibility/schema/root#version)| Version of the add-in. | `<Version>` |*None* |
+|[`"manifestVersion"`](/microsoft-365/extensibility/schema/root#manifestversion)| Version of the manifest schema. |  attributes of `<OfficeApp>` |*None* |
+|[`"name"`](/microsoft-365/extensibility/schema/root#name)| Public name of the add-in. | `<DisplayName>` |*None* |
+|[`"description"`](/microsoft-365/extensibility/schema/root#description)| Public description of the add-in.  | `<Description>` |*None* |
+|[`"accentColor"`](/microsoft-365/extensibility/schema/root#accentcolor)|*None* |*None* | This property has no equivalent in the add-in only manifest and isn't used in the unified manifest. But it must be present. |
+|[`"developer"`](/microsoft-365/extensibility/schema/root#developer)| Identifies the developer of the add-in. | `<ProviderName>` |*None* |
+|[`"localizationInfo"`](/microsoft-365/extensibility/schema/root#localizationinfo)| Configures the default locale and other supported locales. | `<DefaultLocale>` and `<Override>` |*None* |
+|[`"webApplicationInfo"`](/microsoft-365/extensibility/schema/root#webApplicationInfo-property)| Identifies the add-in's web app as it is known in Microsoft Entra ID. | `<WebApplicationInfo>` | In the add-in only manifest, the `<WebApplicationInfo>` element is inside `<VersionOverrides>`, not the base manifest. |
+|[`"authorization"`](/microsoft-365/extensibility/schema/root#authorization)| Identifies any Microsoft Graph permissions that the add-in needs. | `<WebApplicationInfo>` | In the add-in only manifest, the `<WebApplicationInfo>` element is inside `<VersionOverrides>`, not the base manifest. |
+
+The `<Hosts>`, `<Requirements>`, and `<ExtendedOverrides>` elements are part of the base manifest in the add-in only manifest. But concepts and purposes associated with these elements are configured inside the `"extensions"` property of the unified manifest.
+
+### `"extensions"` property
+
+The `"extensions"` property in the unified manifest primarily represents characteristics of the add-in that wouldn't be relevant to other kinds of Microsoft 365 extensions. For example, the Office applications that the add-in extends (such as, Excel, PowerPoint, Word, and Outlook) are specified inside the `"extensions"` property, as are customizations of the Office application ribbon. The configuration purposes of the `"extensions"` property closely match those of the `<VersionOverrides>` element in the add-in only manifest.
 
 > [!NOTE]
-> When it becomes possible to combine an add-in with other Microsoft 365 extension types in a single manifest, then there will be other top-level properties that don't fit into the notion of the base manifest. There will usually be a top-level property for every kind of Microsoft 365 extension type, such as "configurableTabs", "bots" and "connectors". For examples, see the [Teams manifest documentation](/microsoftteams/platform/resources/schema/manifest-schema). This structure makes clear that the "extension" property represents an Office add-in as one type of Microsoft 365 extension.
+> The `<VersionOverrides>` section of the add-in only manifest has a "double jump" system for many string resources. Strings, including URLs, are specified and assigned an ID in the `<Resources>` child of `<VersionOverrides>`. Elements that require a string have a `resid` attribute that matches the ID of a string in the `<Resources>` element. The `"extensions"` property of the unified manifest simplifies things by defining strings directly as property values. There is nothing in the unified manifest that is equivalent to the `<Resources>` element.
 
-#### Base manifest
-
-The base manifest properties specify characteristics of the add-in that *any* type of extension of Microsoft 365 is expected to have. This includes Teams tabs and message extensions, not just Office add-ins. These characteristics include a public name and a unique ID. The following table shows a mapping of some critical top-level properties in the preview JSON manifest to the XML elements in the current manifest, where the mapping principle is the *purpose* of the markup.
-
-|JSON property|Purpose|XML elements|Comments|
-|:-----|:-----|:-----|:-----|
-|"$schema"| Identifies the manifest schema. | attributes of **\<OfficeApp\>** and **\<VersionOverrides\>** |*None.* |
-|"id"| GUID of the add-in. | **\<Id\>**|*None.* |
-|"version"| Version of the add-in. | **\<Version\>** |*None.* |
-|"manifestVersion"| Version of the manifest schema. |  attributes of **\<OfficeApp\>** |*None.* |
-|"name"| Public name of the add-in. | **\<DisplayName\>** |*None.* |
-|"description"| Public description of the add-in.  | **\<Description\>** |*None.* |
-|"accentColor"|*None.* |*None.* | This property has no equivalent in the current XML manifest and isn't used in the preview of the JSON manifest. But it must be present. |
-|"developer"| Identifies the developer of the add-in. | **\<ProviderName\>** |*None.* |
-|"localizationInfo"| Configures the default locale and other supported locales. | **\<DefaultLocale\>** and **\<Override\>** |*None.* |
-|"webApplicationInfo"| Identifies the add-in's web app as it is known in Azure Active Directory. | **\<WebApplicationInfo\>** | In the current XML manifest, the **\<WebApplicationInfo\>** element is inside **\<VersionOverrides\>**, not the base manifest. |
-|"authorization"| Identifies any Microsoft Graph permissions that the add-in needs. | **\<WebApplicationInfo\>** | In the current XML manifest, the **\<WebApplicationInfo\>** element is inside **\<VersionOverrides\>**, not the base manifest. |
-
-The **\<Hosts\>**, **\<Requirements\>**, and **\<ExtendedOverrides\>** elements are part of the base manifest in the current XML manifest. But concepts and purposes associated with these elements are configured inside the "extension" property of the preview JSON manifest.
-
-#### "extension" property
-
-The "extension" property in the preview JSON manifest primarily represents characteristics of the add-in that would not be relevant to other kinds of Microsoft 365 extensions. For example, the Office applications that the add-in extends (such as, Excel, PowerPoint, Word, and Outlook) are specified inside the "extension" property, as are customizations of the Office application ribbon. The configuration purposes of the "extension" property closely match those of the **\<VersionOverrides\>** element in the current XML manifest.
+The following table shows a mapping of *some* high-level child properties of the `"extensions"` property in the unified manifest to XML elements in the current manifest. Dot notation is used to reference child properties.
 
 > [!NOTE]
-> The **\<VersionOverrides\>** section of the current XML manifest has a "double jump" system for many string resources. Strings, including URLs, are specified and assigned an ID in the **\<Resources\>** child of **\<VersionOverrides\>**. Elements that require a string have a `resid` attribute that matches the ID of a string in the **\<Resources\>** element. The "extension" property of the preview JSON manifest simplifies things by defining strings directly as property values. There is nothing in the JSON manifest that is equivalent to the **\<Resources\>** element.
-
-The following table shows a mapping of some high level child properties of the "extension" property in the preview JSON manifest to XML elements in the current manifest. Dot notation is used to reference child properties.
+> This table contains only some selected representative descendant properties of `"extensions"`. *It isn't an exhaustive list of all child properties of `"extensions"`.* For the full reference of the unified manifest, see [Microsoft 365 app manifest schema reference](/microsoft-365/extensibility/schema).
 
 |JSON property|Purpose|XML elements|Comments|
 |:-----|:-----|:-----|:-----|
-| "requirements.capabilities" | Identifies the requirement sets that the add-in needs to be installable. | **\<Requirements\>** and **\<Sets\>** |*None.* |
-| "requirements.scopes" | Identifies the Office applications in which the add-in can be installed. | **\<Hosts\>** |*None.* |
-| "ribbons" | The ribbons that the add-in customizes. | **\<Hosts\>**, **ExtensionPoints**, and various **\*FormFactor** elements | The "ribbons" property is an array of anonymous objects that each merge the purposes of the these three elements. See ["ribbons" table](#ribbons-table).|
-| "alternatives" | Specifies backwards compatibility with an equivalent COM add-in, XLL, or both. | **\<EquivalentAddins\>** | See the [EquivalentAddins - See also](/javascript/api/manifest/equivalentaddins#see-also) for background information. |
-| "runtimes"  | Configures various kinds of add-ins that have little or no UI, such as custom function-only add-ins and [function commands](../design/add-in-commands.md#types-of-add-in-commands). | **\<Runtimes\>**. **\<FunctionFile\>**, and **\<ExtensionPoint\>** (of type CustomFunctions) |*None.* |
-| "autoRunEvents" | Configures an event handler for a specified event. | **\<Event\>** and **\<ExtensionPoint\>** (of type Events) |*None.* |
+| [`"requirements.capabilities"`](/microsoft-365/extensibility/schema/requirements-extension-element-capabilities) | Identifies the [requirement sets](office-versions-and-requirement-sets.md#office-requirement-sets-availability) that the add-in needs to be installable. that the add-in needs to be installable. | `<Requirements>` and `<Sets>` |*None* |
+| [`"requirements.scopes"`](/microsoft-365/extensibility/schema/requirements-extension-element#scopes) | Identifies the Office applications in which the add-in can be installed. | `<Hosts>` |*None* |
+| [`"ribbons"`](/microsoft-365/extensibility/schema/element-extensions#ribbons) | The ribbons that the add-in customizes. | `<Hosts>`, **ExtensionPoints**, and various **\*FormFactor** elements | The `"ribbons"` property is an array of anonymous objects that each merge the purposes of the these three elements. See [`"ribbons"` table](#ribbons-table).|
+| [`"alternates"`](/microsoft-365/extensibility/schema/element-extensions#alternates) | Specifies backwards compatibility with an equivalent COM add-in, XLL, or both. | `<EquivalentAddins>` | See the [EquivalentAddins - See also](/javascript/api/manifest/equivalentaddins#see-also) for background information. |
+| [`"runtimes"`](/microsoft-365/extensibility/schema/element-extensions#runtimes)  | Configures the [embedded runtimes](../testing/runtimes.md) that the add-in uses, including various kinds of add-ins that have little or no UI, such as custom function-only add-ins and [function commands](../design/add-in-commands.md#types-of-add-in-commands). | `<Runtimes>`. `<FunctionFile>`, and `<ExtensionPoint>` (of type CustomFunctions) |*None.* |
+| [`"autoRunEvents"`](/microsoft-365/extensibility/schema/element-extensions#autorunevents) | Configures an event handler for a specified event. | `<ExtensionPoint>` (of type LaunchEvent) |*None.* |
+| [`"keyboardShortcuts"`](/microsoft-365/extensibility/schema/element-extensions#keyboardshortcuts) (developer preview) | Defines custom keyboard shortcuts or key combinations to run specific actions. | `<ExtendedOverrides>` | *None.* |
 
-##### "ribbons" table
+#### `"ribbons"` table
 
-The following table maps the child properties of the anonymous child objects in the "ribbons" array onto XML elements in the current manifest. 
+The following table maps the child properties of the anonymous child objects in the `"ribbons"` array onto XML elements in the current manifest.
 
 |JSON property|Purpose|XML elements|Comments|
 |:-----|:-----|:-----|:-----|
-| "contexts" | Specifies the command surfaces that the add-in customizes. | various **\*CommandSurface** elements, such as **PrimaryCommandSurface** and **MessageReadCommandSurface** |*None.* |
-| "tabs" | Configures custom ribbon tabs. | **\<CustomTab\>** | The names and hierarchy of the descendant properties of "tabs" closely match the descendants of **\<CustomTab\>**.  |
+| `"contexts"` | Specifies the command surfaces that the add-in customizes. | Various **\*CommandSurface** elements, such as **PrimaryCommandSurface** and **MessageReadCommandSurface** |*None.* |
+| `"tabs"` | Configures custom ribbon tabs. | `<CustomTab>` | The names and hierarchy of the descendant properties of `"tabs"` closely match the descendants of `<CustomTab>`. |
+| `"fixedControls"` | Configures and adds the button of an [integrated spam-reporting](../outlook/spam-reporting.md) add-in to the Outlook ribbon. | `<Control>` child element of `<ReportPhishingCustomization>` | *None.* |
+| `"spamPreProcessingDialog"` | Configures the preprocessing dialog shown after the button of a spam-reporting add-in is selected from the Outlook ribbon. | `<PreProcessingDialog>` child element of `<ReportPhishingCustomization>` | *None.* |
 
-## Sample preview JSON manifest
-
-The following is an example of a preview JSON-manifest for an add-in.
-
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/op/extensions/MicrosoftTeams.schema.json",
-  "id": "00000000-0000-0000-0000-000000000000",
-  "version": "1.0.0",
-  "manifestVersion": "devPreview",
-  "name": {
-    "short": "Name of your app (<=30 chars)",
-    "full": "Full name of app, if longer than 30 characters (<=100 chars)"
-  },
-  "description": {
-    "short": "Short description of your app (<= 80 chars)",
-    "full": "Full description of your app (<= 4000 chars)"
-  },
-  "icons": {
-    "outline": "outline.png",
-    "color": "color.png"
-  },
-  "accentColor": "#230201",
-  "developer": {
-    "name": "Contoso",
-    "websiteUrl": "https://www.contoso.com",
-    "privacyUrl": "https://www.contoso.com/privacy",
-    "termsOfUseUrl": "https://www.contoso.com/servicesagreement"
-  },
-  "localizationInfo": {
-    "defaultLanguageTag": "en-us",
-    "additionalLanguages": [
-      {
-        "languageTag": "es-es",
-        "file": "es-es.json"
-      }
-    ]
-  },
-  "webApplicationInfo": {
-    "id": "00000000-0000-0000-0000-000000000000",
-    "resource": "api://www.contoso.com/prodapp"
-  },
-  "authorization": {
-    "permissions": {
-      "resourceSpecific": [
-        {
-          "name": "Mailbox.ReadWrite.User",
-          "type": "Delegated"
-        }
-      ]
-    }
-  },
-  "extensions": [
-    {
-      "requirements": {
-        "scopes": [ "mail" ],
-        "capabilities": [
-          {
-            "name": "Mailbox", "minVersion": "1.1"
-          }
-        ]
-      },
-      "runtimes": [
-        {
-          "requirements": {
-            "capabilities": [
-              {
-                "name": "MailBox", "minVersion": "1.10"
-              }
-            ]
-          },
-          "id": "eventsRuntime",
-          "type": "general",
-          "code": {
-            "page": "https://contoso.com/events.html",
-            "script": "https://contoso.com/events.js"
-          },
-          "lifetime": "short",
-          "actions": [
-            {
-              "id": "onMessageSending",
-              "type": "executeFunction"
-            },
-            {
-              "id": "onNewMessageComposeCreated",
-              "type": "executeFunction"
-            }
-          ]
-        },
-        {
-          "requirements": {
-            "capabilities": [
-              {
-                "name": "MailBox", "minVersion": "1.1"
-              }
-            ]
-          },
-          "id": "commandsRuntime",
-          "type": "general",
-          "code": {
-            "page": "https://contoso.com/commands.html",
-            "script": "https://contoso.com/commands.js"
-          },
-          "lifetime": "short",
-          "actions": [
-            {
-              "id": "action1",
-              "type": "executeFunction"
-            },
-            {
-              "id": "action2",
-              "type": "executeFunction"
-            },
-            {
-              "id": "action3",
-              "type": "executeFunction"
-            }
-          ]
-        }
-      ],
-      "ribbons": [
-        {
-          "contexts": [
-            "mailCompose"
-          ],
-          "tabs": [
-            {
-              "builtInTabId": "TabDefault",
-              "groups": [
-                {
-                  "id": "dashboard",
-                  "label": "Controls",
-                  "controls": [
-                    {
-                      "id": "control1",
-                      "type": "button",
-                      "label": "Action 1",
-                      "icons": [
-                        {
-                          "size": 16,
-                          "file": "test_16.png"
-                        },
-                        {
-                          "size": 32,
-                          "file": "test_32.png"
-                        },
-                        {
-                          "size": 80,
-                          "file": "test_80.png"
-                        }
-                      ],
-                      "supertip": {
-                        "title": "Action 1 Title",
-                        "description": "Action 1 Description"
-                      },
-                      "actionId": "action1"
-                    },
-                    {
-                      "id": "menu1",
-                      "type": "menu",
-                      "label": "My Menu",
-                      "icons": [
-                        {
-                          "size": 16,
-                          "file": "test_16.png"
-                        },
-                        {
-                          "size": 32,
-                          "file": "test_32.png"
-                        },
-                        {
-                          "size": 80,
-                          "file": "test_80.png"
-                        }
-                      ],
-                      "supertip": {
-                        "title": "My Menu",
-                        "description": "Menu with 2 actions"
-                      },
-                      "items": [
-                        {
-                          "id": "menuItem1",
-                          "type": "menuItem",
-                          "label": "Action 2",
-                          "supertip": {
-                            "title": "Action 2 Title",
-                            "description": "Action 2 Description"
-                          },
-                          "actionId": "action2"
-                        },
-                        {
-                          "id": "menuItem2",
-                          "type": "menuItem",
-                          "label": "Action 3",
-                          "icons": [
-                            {
-                              "size": 16,
-                              "file": "test_16.png"
-                            },
-                            {
-                              "size": 32,
-                              "file": "test_32.png"
-                            },
-                            {
-                              "size": 80,
-                              "file": "test_80.png"
-                            }
-                          ],
-                          "supertip": {
-                            "title": "Action 3 Title",
-                            "description": "Action 3 Description"
-                          },
-                          "actionId": "action3"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "contexts": [ "mailRead" ],
-          "tabs": [
-            {
-              "builtInTabId": "TabDefault",
-              "groups": [
-                {
-                  "id": "dashboard",
-                  "label": "Controls",
-                  "controls": [
-                    {
-                      "id": "control1",
-                      "type": "button",
-                      "label": "Action 1",
-                      "icons": [
-                        {
-                          "size": 16,
-                          "file": "test_16.png"
-                        },
-                        {
-                          "size": 32,
-                          "file": "test_32.png"
-                        },
-                        {
-                          "size": 80,
-                          "file": "test_80.png"
-                        }
-                      ],
-                      "supertip": {
-                        "title": "Action 1 Title",
-                        "description": "Action 1 Description"
-                      },
-                      "actionId": "action1"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "autoRunEvents": [
-        {
-          "requirements": {
-            "capabilities": [
-              {
-                "name": "MailBox", "minVersion": "1.10"
-              }
-            ]
-          },
-          "events": [
-            {
-              "type": "newMessageComposeCreated",
-              "actionId": "onNewMessageComposeCreated"
-            },
-            {
-              "type": "messageSending",
-              "actionId": "onMessageSending",
-              "options": {
-                "sendMode": "promptUser"
-              }
-            }
-          ]
-        }
-      ],
-      "alternates": [
-        {
-          "requirements": {
-            "scopes": [ "mail" ]
-          },
-          "prefer": {
-            "comAddin": {
-              "progId": "ContosoExtension"
-            }
-          },
-          "hide": {
-            "storeOfficeAddin": {
-              "officeAddinId": "00000000-0000-0000-0000-000000000000",
-              "assetId": "WA000000000"
-            }
-          }
-        }
-      ]
-    }
-  ]
-}
-```
+For a full sample unified manifest, see [Sample unified manifest](unified-manifest-overview.md#sample-unified-manifest).
 
 ## Next steps
 
-- [Build an Outlook add-in with a Teams manifest (preview)](../quickstarts/outlook-quickstart-json-manifest.md).
+- [Build your first Outlook add-in](../quickstarts/outlook-quickstart-yo.md)

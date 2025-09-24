@@ -2,6 +2,7 @@
 title: Use the Office dialog box to play a video
 description: Learn how to open and play a video in the Office dialog box.
 ms.date: 07/08/2021
+ms.topic: how-to
 ms.localizationpriority: medium
 ---
 
@@ -28,4 +29,4 @@ To play a video in a dialog box with the Office dialog API, follow these steps.
 
 For a sample of a video playing in a dialog box, see the [video placemat design pattern](../design/first-run-experience-patterns.md#video-placemat).
 
-![Screenshot showing a video playing in an add-in dialog box in front of Excel.](../images/video-placemats-dialog-open.png)
+![A video playing in an add-in dialog box in front of Excel.](../images/video-placemats-dialog-open.png)

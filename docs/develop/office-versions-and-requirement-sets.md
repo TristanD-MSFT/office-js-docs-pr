@@ -1,7 +1,7 @@
 ---
 title: Office versions and requirement sets
 description: Supported Office.js platforms using JavaScript API.
-ms.date: 09/14/2022
+ms.date: 03/11/2025
 ms.localizationpriority: high
 ---
 
@@ -25,6 +25,10 @@ To identify the Office version that you're using, from within an Office applicat
 > [!NOTE]
 > If your version of Office is different from this, see [What version of Outlook do I have?](https://support.microsoft.com/office/b3a9568c-edb5-42b9-9825-d48d82b2257c) or [About Office: What version of Office am I using?](https://support.microsoft.com/topic/932788b8-a3ce-44bf-bb09-e334518b8b19) to understand how to get this information for your version.
 
+## Deployment
+
+How your add-in is deployed can affect your add-in's availability on the various platforms and clients. To learn more about deployment options, see [Deploy and publish Office Add-ins](../publish/publish.md).
+
 ## Office requirement sets availability
 
 Office Add-ins can use API requirement sets to determine whether the Office application supports the API members that it need to use. Requirement set support varies by Office application and the Office application version (see earlier section [How to check your Office version](#how-to-check-your-office-version)).
@@ -41,18 +45,7 @@ An add-in can only use APIs in requirement sets that are supported by the versio
 - [PowerPoint JavaScript API requirement sets](/javascript/api/requirement-sets/powerpoint/powerpoint-api-requirement-sets) (PowerPointApi)
 - [Word JavaScript API requirement sets](/javascript/api/requirement-sets/word/word-api-requirement-sets) (WordApi)
 
-Some requirement sets contain APIs that can be used by several Office applications. For information about these requirement sets, refer to the following articles.
-
-- [Office common requirement sets](/javascript/api/requirement-sets/common/office-add-in-requirement-sets)
-- [Add-in commands requirement sets](/javascript/api/requirement-sets/common/add-in-commands-requirement-sets)
-- [Dialog API requirement sets](/javascript/api/requirement-sets/common/dialog-api-requirement-sets)
-- [Dialog Origin requirement sets](/javascript/api/requirement-sets/common/dialog-origin-requirement-sets)
-- [Identity API requirement sets](/javascript/api/requirement-sets/common/identity-api-requirement-sets)
-- [Image Coercion requirement sets](/javascript/api/requirement-sets/common/image-coercion-requirement-sets)
-- [Keyboard Shortcuts requirement sets](/javascript/api/requirement-sets/common/keyboard-shortcuts-requirement-sets)
-- [Open Browser Window requirement sets](/javascript/api/requirement-sets/common/open-browser-window-api-requirement-sets)
-- [Ribbon API requirement sets](/javascript/api/requirement-sets/common/ribbon-api-requirement-sets)
-- [Shared Runtime requirement sets](/javascript/api/requirement-sets/common/shared-runtime-requirement-sets)
+Some requirement sets contain APIs that can be used by several Office applications. For information about these requirement sets, see [Office Common API requirement sets](/javascript/api/requirement-sets/common/office-add-in-requirement-sets).
 
 The version number of a requirement set, such as the "1.1" in `ExcelApi 1.1`, is relative to the Office application. The version number of a given requirement set (e.g., `ExcelApi 1.1`) does not correspond to the version number of Office.js or to requirement sets for other Office applications (e.g., Word, Outlook, etc.).  Requirement sets for the different Office applications are released at different rates. For example, `ExcelApi 1.5` was released before the `WordApi 1.3` requirement set.
 
@@ -67,4 +60,4 @@ There are various ways to specify which Office applications and requirement sets
 - [Specify Office applications and API requirements](../develop/specify-office-hosts-and-api-requirements.md)
 - [Install the latest version of Office](../develop/install-latest-office-version.md)
 - [Overview of update channels for Microsoft 365 Apps](/deployoffice/overview-of-update-channels-for-office-365-proplus)
-- [Reimagine productivity with Microsoft 365 and Microsoft Teams](https://products.office.com/compare-all-microsoft-office-products?tab=2)
+- [Reimagine productivity with Microsoft 365 and Microsoft Teams](https://www.microsoft.com/microsoft-365/buy/compare-all-microsoft-365-products)

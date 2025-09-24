@@ -1,9 +1,11 @@
 ---
-ms.date: 06/09/2022
+ms.date: 08/26/2025
 description: Troubleshoot common problems with Excel custom functions.
 title: Troubleshoot custom functions
+ms.topic: troubleshooting
 ms.localizationpriority: medium
 ---
+
 # Troubleshoot custom functions
 
 When developing custom functions, you may encounter errors in the product while creating and testing your functions.
@@ -14,13 +16,13 @@ To resolve issues, you can [enable runtime logging to capture errors](#enable-ru
 
 ## Debugging custom functions
 
-To debug custom functions add-ins that use a [shared runtime](../testing/runtimes.md#shared-runtime), see [Configure your Office Add-in to use a shared runtime: Debug](../develop/configure-your-add-in-to-use-a-shared-runtime.md#debug).
+To debug custom functions add-ins that use a [shared runtime](../testing/runtimes.md#shared-runtime), see [Overview of debugging Office Add-ins](../testing/debug-add-ins-overview.md).
 
 To debug custom functions add-ins that don't use a shared runtime, see [Custom functions debugging](custom-functions-debugging.md).
 
 ## Enable runtime logging
 
-If you're testing your add-in in Office on Windows, you should [enable runtime logging](../testing/runtime-logging.md). Runtime logging delivers `console.log` statements to a separate log file you create to help you uncover issues. The statements cover a variety of errors, including errors pertaining to your add-in's XML manifest file, runtime conditions, or installation of your custom functions. For more information about runtime logging, see [Debug your add-in with runtime logging](../testing/runtime-logging.md).
+If you're testing your add-in in Office on Windows, you should [enable runtime logging](../testing/runtime-logging.md). Runtime logging delivers `console.log` statements to a separate log file you create to help you uncover issues. The statements cover a variety of errors, including errors pertaining to your add-in's manifest file, runtime conditions, or installation of your custom functions. For more information about runtime logging, see [Debug your add-in with runtime logging](../testing/runtime-logging.md).
 
 ### Check for Excel error messages
 
@@ -28,16 +30,66 @@ Excel has a number of built-in error messages which are returned to a cell if th
 
 Generally, these errors correspond to the errors you might already be familiar with in Excel. The are only a few exceptions specific to custom functions, listed here:
 
-- A `#NAME` error generally means there has been an issue registering your functions.
+- A `#NAME?` error generally means there has been an issue registering your functions. For additional information, see [Custom functions showing #NAME? error](#custom-functions-showing-name-error).
 - A `#N/A` error is also maybe a sign that that function while registered could not be run. This is typically due to a missing `CustomFunctions.associate` command.
-- A `#VALUE` error typically indicates an error in the functions' script file.
+- A `#VALUE!` error typically indicates an error in the functions' script file.
 - A `#REF!` error may indicate that your function name is the same as a function name in an add-in that already exists.
 
 ## Clear the Office cache
 
 Information about custom functions is cached by Office. Sometimes while developing and repeatedly reloading an add-in with custom functions your changes may not appear. You can fix this by clearing the Office cache. For more information, see [Clear the Office cache](../testing/clear-cache.md).
 
+### Clear the custom functions cache when your add-in runs
+
+There may be times when you need to clear the custom functions cache for an add-in deployed to your end users, so that add-in updates and custom functions setting changes are incorporated at the same time. Without triggering a custom functions cache clear, changes to the **functions.json** and **functions.js** files may take up to 24 hours to reach your end users, while changes to **taskpane.html** reach end users more quickly.
+
+> [!NOTE]
+> Once this setting is turned on for a document, it takes effect the next time the document is opened with the add-in. It doesn't apply immediately after the function is called.
+
+To ensure that the custom functions cache is cleared by your add-in, add the following code to your **functions.js** file, and then call the `setForceRefreshOn` method in your `Office.onReady` call or other add-in initialization logic.
+
+> [!IMPORTANT]
+> This process for clearing the custom functions cache is only supported for custom functions add-ins that use a [shared runtime](../testing/runtimes.md#shared-runtime).
+
+```javascript
+// To enable custom functions cache clearing, add this method to your functions.js 
+// file, and then call the `setForceRefreshOn` method in your `Office.onReady` call.
+function setForceRefreshOn() {  
+    Office.context.document.settings.set(  
+        'Office.ForceRefreshCustomFunctionsCache',
+        true  
+    );  
+    Office.context.document.settings.saveAsync();  
+}
+```
+
+> [!TIP]
+> Frequently refreshing the custom functions cache can impact performance, so clearing the custom functions cache with `setForceRefreshOn` should only be used during add-in development or to resolve bugs. Once a custom functions add-in is stabilized, stop forcing cache refreshes.
+
+To disable the custom functions cache clear in your add-in, set `Office.ForceRefreshCustomFunctionsCache` to `false` and call the method in your `Office.onReady` call. The following code sample shows an example with a `setForceRefreshOff` method.
+
+```javascript
+// To disable custom functions cache clearing, add this method to your functions.js 
+// file, and then call the `setForceRefreshOff` method in your `Office.onReady` call.
+function setForceRefreshOff() {  
+    Office.context.document.settings.set(  
+        'Office.ForceRefreshCustomFunctionsCache',
+        false  
+    );  
+    Office.context.document.settings.saveAsync();  
+}
+```
+
 ## Common problems and solutions
+
+### Custom functions showing #NAME? error
+
+When opening a workbook that uses a custom functions add-in, sometimes a `#NAME?` error displays in custom function cells instead of the formula result. IntelliSense for custom functions may also not appear in the workbook when authoring new formulas. The likely cause of this issue is that the custom functions add-in hasn't registered successfully.
+
+To resolve the issue, try the following approaches:
+
+- Refresh the add-in by selecting your add-in icon. Select **Home** > **Add-ins** > **My Add-ins** and then your add-in icon.
+- Follow the guidance to [automatically clear the Office cache when Office opens](../testing/clear-cache.md#automatically-clear-the-cache), and then restart Excel.
 
 ### Can't open add-in from localhost: Use a local loopback exemption
 
@@ -49,7 +101,7 @@ If you see the error "TypeError: Network request failed" in your [runtime log](c
 
 ### Ensure promises return
 
-When Excel is waiting for a custom function to complete, it displays #BUSY! in the cell. If your custom function code returns a promise, but the promise does not return a result, Excel will continue showing `#BUSY!`. Check your functions to make sure that any promises are properly returning a result to a cell.
+When Excel is waiting for a custom function to complete, it displays `#BUSY!` in the cell. If your custom function code returns a promise, but the promise does not return a result, Excel will continue showing `#BUSY!`. Check your functions to make sure that any promises are properly returning a result to a cell.
 
 ### Error: The dev server is already running on port 3000
 
@@ -76,7 +128,7 @@ function add(first, second) {
 CustomFunctions.associate("ADD", add);
 ```
 
-For more information on this process, see [Associating function names with JSON metadata](../excel/custom-functions-json.md#associating-function-names-with-json-metadata).
+For more information on this process, see [Associate function names with JSON metadata](../excel/custom-functions-json.md#associate-function-names-with-json-metadata).
 
 ## Known issues
 
@@ -86,9 +138,9 @@ Known issues are tracked and reported in the [Excel Custom Functions GitHub repo
 
 If you are encountering issues that aren't documented here, let us know. There are two ways to report issues.
 
-### In Excel on Windows or Mac
+### In Excel on Windows or on Mac
 
-If using Excel on Windows or Mac, you can report feedback to the Office extensibility team directly from Excel. To do this, select **File -> Feedback -> Send a Frown**. Sending a frown will provide the necessary logs to understand the issue you are hitting.
+If using Excel on Windows or on Mac, you can report feedback to the Office extensibility team directly from Excel. To do this, select **File** > **Feedback** > **Send a Frown**. Sending a frown will provide the necessary logs to understand the issue you are hitting.
 
 ### In Github
 

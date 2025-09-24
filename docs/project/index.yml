@@ -6,10 +6,10 @@ summary: With Project add-ins, you can use familiar web technologies such as HTM
 metadata:
   title: Project add-ins documentation # Required; page title displayed in search results. Include the brand. < 60 chars.
   description: Resources for learning about Project add-ins.  # Required; article description that is displayed in search results. < 160 chars.
-  ms.prod: project #Required
+  ms.service: project #Required
   ms.topic: landing-page # Required
-  ms.date: 03/29/2021 #Required; mm/dd/yyyy format.
-  ms.localizationpriority: high
+  ms.date: 10/05/2024 #Required; mm/dd/yyyy format.
+  ms.localizationpriority: medium
 
 # linkListType: architecture | concept | deploy | download | get-started | how-to-guide | learn | overview | quickstart | reference | sample | tutorial | video | whats-new
 
@@ -23,8 +23,6 @@ landingContent:
         links:
           - text: What are Project add-ins?
             url: project-add-ins.md
-          - text: JavaScript API for Project
-            url: ../reference/overview/project-add-ins-reference-overview.md
       - linkListType: quickstart
         links:
           - text: Build your first Project add-in
@@ -58,10 +56,16 @@ landingContent:
       - linkListType: reference
         links:
           - text: Ask questions
-            url: /answers/topics/office-addins-dev.html
+            url: https://stackoverflow.com/questions/tagged/office-js
           - text: Request features
-            url: https://techcommunity.microsoft.com/t5/microsoft-365-developer-platform/idb-p/Microsoft365DeveloperPlatform
+            url: https://feedbackportal.microsoft.com/feedback/forum/40792262-301c-ec11-b6e7-0022481f8472
           - text: Report issues
             url: https://github.com/officedev/office-js/issues
+          - text: Join Office Add-ins community call
+            url: https://learn.microsoft.com/office/dev/add-ins/overview/office-add-ins-community-call
           - text: Office Add-ins additional resources
             url: ../resources/resources-links-help.md
+          - text: Download samples
+            url: https://developer.microsoft.com/microsoft-365/gallery/?filterBy=Project,Samples
+        
+

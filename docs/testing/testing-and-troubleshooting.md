@@ -1,7 +1,8 @@
 ---
 title: Troubleshoot user errors with Office Add-ins
 description: Learn how to troubleshoot user errors in Office Add-ins.
-ms.date: 01/23/2023
+ms.topic: troubleshooting-problem-resolution
+ms.date: 06/23/2025
 ms.localizationpriority: medium
 ---
 
@@ -9,27 +10,31 @@ ms.localizationpriority: medium
 
 At times your users might encounter issues with Office Add-ins that you develop. For example, an add-in fails to load or is inaccessible. Use the information in this article to help resolve common issues that your users encounter with your Office Add-in.
 
-You can also use [Fiddler](https://www.telerik.com/fiddler) to identify and debug issues with your add-ins.
+You can also use tools to intercept HTTP messages to identify and debug issues with your add-ins. Popular choices include [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com), and [Requestly](https://requestly.com/downloads).
 
 ## Common errors and troubleshooting steps
 
 The following table lists common error messages that users might encounter and steps that your users can take to resolve the errors.
 
-|**Error message**|**Resolution**|
+|Error message|Resolution|
 |:-----|:-----|
 |App error: Catalog could not be reached|Verify firewall settings."Catalog" refers to AppSource. This message indicates that the user cannot access AppSource.|
-|APP ERROR: This app could not be started. Close this dialog to ignore the problem or click "Restart" to try again.|Verify that the latest Office updates are installed, or download the [update for Office 2013](https://support.microsoft.com/kb/2986156/).|
+|APP ERROR: This app could not be started. Close this dialog to ignore the problem or click "Restart" to try again.|Verify that the latest Office updates are installed, or update with the [Windows Installer](/officeupdates/office-updates-msi).|
+|Error: Access denied. `E_ACCESSDENIED (0x80070005)` | The antivirus software installed on the machine might prevent the host app from creating a WebView2 process. To resolve this issue, add an exemption or exclusion to the antivirus for the `.exe` files in the Office root folder (`C:\Program Files\Microsoft Office\root\Office16`) or for the entire Office root folder. If this does not fix the issue, add an exemption or exclusion for the WebView2 process (`C:\Program Files (x86)\Microsoft\EdgeWebView\Application[latest installed version]\msedgewebview2.exe`). |
 |Error: Object doesn't support property or method 'defineProperty'|Confirm that Internet Explorer is not running in Compatibility Mode. Go to **Tools** > **Compatibility View Settings**.|
 |Sorry, we couldn't load the app because your browser version is not supported. Click here for a list of supported browser versions.|Make sure that the browser supports HTML5 local storage, or reset your Internet Explorer settings. For information about supported browsers, see [Requirements for running Office Add-ins](../concepts/requirements-for-running-office-add-ins.md).|
 
-## When installing an add-in, you see "Error loading add-in" in the status bar
+## When installing an add-in, you see "Error loading add-ins" in the status bar
 
 1. Close Office.
+1. Check that the time and date are set correctly on your computer. An incorrect time and date can cause issues when verifying the add-in's manifest.
 1. Verify that the manifest is valid. See [Validate an Office Add-in's manifest](troubleshoot-manifest.md).
 1. Restart the add-in.
 1. Install the add-in again.
 
-You can also give us feedback: if using Excel on Windows or Mac, you can report feedback to the Office extensibility team directly from Excel. To do this, select **File** > **Feedback** > **Send a Frown**. Sending a frown provides the necessary logs to understand the issue.
+If the add-in package was tampered with before installation, this error will occur. Download the add-in again and try to reinstall it. Alternatively, contact the publisher of the add-in for help.
+
+You can also give us feedback: if using Office on Windows or Mac, you can report feedback to the Office extensibility team directly from Office. To do this, select **Help** > **Feedback** > **Report a problem**. Sending a report provides necessary information to understand the issue.
 
 ## Outlook add-in doesn't work correctly
 
@@ -40,17 +45,17 @@ If an Outlook add-in running on Windows and [using Internet Explorer](../concept
 
 We recommend that you uncheck these settings only to troubleshoot the issue. If you leave them unchecked, you will get prompts when you browse. After the issue is resolved, check **Disable script debugging (Internet Explorer)** and **Disable script debugging (Other)** again.
 
-## Add-in doesn't activate in Office 2013
+## Add-in doesn't activate in Office
 
 If the add-in doesn't activate when the user performs the following steps.
 
-1. Signs in with their Microsoft account in Office 2013.
+1. Signs in with their Microsoft account in the Office application.
 
 1. Enables two-step verification for their Microsoft account.
 
 1. Verifies their identity when prompted when they try to insert an add-in.
 
-Verify that the latest Office updates are installed, or download the [update for Office 2013](https://support.microsoft.com/kb/2986156/).
+Verify that the latest Office updates are installed, or update with the [Windows Installer](/officeupdates/office-updates-msi).
 
 ## Add-in dialog box cannot be displayed
 
@@ -58,7 +63,7 @@ When using an Office Add-in, the user is asked to allow a dialog box to be displ
 
 "The security settings in your browser prevent us from creating a dialog box. Try a different browser, or configure your browser so that [URL] and the domain shown in your address bar are in the same security zone."
 
-![Screenshot of the dialog box error message.](../images/dialog-prevented.png)
+![The dialog box error message showing the previously stated text.](../images/dialog-prevented.png)
 
 |Affected browsers|Affected platforms|
 |:--------------------|:---------------------|

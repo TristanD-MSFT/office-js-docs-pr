@@ -1,22 +1,25 @@
 ---
 title: Use the Outlook REST APIs from an Outlook add-in
 description: Learn how to use the Outlook REST APIs from an Outlook add-in to get an access token.
-ms.date: 01/11/2023
+ms.date: 04/22/2025
+ms.topic: how-to
 ms.localizationpriority: medium
 ---
 
 # Use the Outlook REST APIs from an Outlook add-in
 
-The [Office.context.mailbox.item](/javascript/api/requirement-sets/outlook/preview-requirement-set/office.context.mailbox.item) namespace provides access to many of the common fields of messages and appointments. However, in some scenarios an add-in may need to access data that is not exposed by the namespace. For example, the add-in may rely on custom properties set by an outside app, or it needs to search the user's mailbox for messages from the same sender. In these scenarios, the [Outlook REST APIs](/outlook/rest) is the recommended method to retrieve the information.
+The [Office.context.mailbox.item](/javascript/api/requirement-sets/outlook/preview-requirement-set/office.context.mailbox.item) namespace provides access to many of the common fields of messages and appointments. However, in some scenarios an add-in may need to access data that isn't exposed by the namespace. For example, the add-in may rely on custom properties set by an outside app, or it needs to search the user's mailbox for messages from the same sender. In these scenarios, the [Outlook REST APIs](/outlook/rest) is the recommended method to retrieve the information.
 
 > [!IMPORTANT]
-> **The Outlook REST APIs are deprecated**
+> **Outlook REST v2.0 and beta endpoints are deprecated**
 >
-> It was previously announced that the Outlook REST endpoints will be fully decommissioned on November 30, 2022 (see the [November 2020 announcement](https://developer.microsoft.com/graph/blogs/outlook-rest-api-v2-0-deprecation-notice/)). However, the decommission date has been postponed. The new date in 2023 will be announced six months before the decommission is enforced through the [Microsoft 365 Developer Blog](https://devblogs.microsoft.com/microsoft365dev/). For more information on this recent update, see the [November 2022 announcement](https://devblogs.microsoft.com/microsoft365dev/outlook-rest-api-v2-0-beta-deprecation-update/). Although the decommission date has been postponed, we highly encourage you to migrate your add-ins to use [Microsoft Graph](/outlook/rest#outlook-rest-api-via-microsoft-graph). For guidance, see [Compare Microsoft Graph and Outlook REST API endpoints](/outlook/rest/compare-graph).
+> The Outlook REST v2.0 and beta endpoints are now [deprecated](https://devblogs.microsoft.com/microsoft365dev/final-reminder-outlook-rest-api-v2-0-and-beta-endpoints-decommissioning/). However, privately released and AppSource-hosted add-ins are still able to use the REST service until [extended support ends for Outlook 2019 on October 14, 2025](/lifecycle/end-of-support/end-of-support-2025). Traffic from these add-ins is automatically identified for exemption. This exemption also applies to new add-ins developed after March 31, 2024.
 >
-> To assist you with the migration, active add-ins are able to keep using the REST service until [extended support ends for Outlook 2019 on October 14, 2025](/lifecycle/end-of-support/end-of-support-2025). Add-in traffic that uses the service will be automatically identified for exemption based on the add-in's manifest ID. This exemption applies to privately released and AppSource-hosted add-ins. It also includes new add-ins developed after the decommission date.
+> Although add-ins are able to use the REST service until October 2025, we highly encourage you to migrate your add-ins to use [Microsoft Graph](microsoft-graph.md).
 
 ## Get an access token
+
+[!INCLUDE [legacy-exchange-token-deprecation](../includes/legacy-exchange-token-deprecation.md)]
 
 The Outlook REST APIs require a bearer token in the `Authorization` header. Typically apps use OAuth2 flows to retrieve a token. However, add-ins can retrieve a token without implementing OAuth2 by using the new [Office.context.mailbox.getCallbackTokenAsync](/javascript/api/requirement-sets/outlook/preview-requirement-set/office.context.mailbox#methods) method introduced in the Mailbox requirement set 1.5.
 
@@ -48,7 +51,7 @@ Office.context.mailbox.getCallbackTokenAsync({isRest: true}, function(result){
 
 To retrieve the current item via REST, your add-in will need the item's ID, properly formatted for REST. This is obtained from the [Office.context.mailbox.item.itemId](/javascript/api/requirement-sets/outlook/preview-requirement-set/office.context.mailbox.item#properties) property, but some checks should be made to ensure that it is a REST-formatted ID.
 
-- In Outlook Mobile, the value returned by `Office.context.mailbox.item.itemId` is a REST-formatted ID and can be used as-is.
+- In Outlook on mobile devices, the value returned by `Office.context.mailbox.item.itemId` is a REST-formatted ID and can be used as-is.
 - In other Outlook clients, the value returned by `Office.context.mailbox.item.itemId` is an EWS-formatted ID, and must be converted using the [Office.context.mailbox.convertToRestId](/javascript/api/requirement-sets/outlook/preview-requirement-set/office.context.mailbox#methods) method.
 - Note you must also convert Attachment ID to a REST-formatted ID in order to use it. The reason the IDs must be converted is that EWS IDs can contain non-URL safe values which will cause problems for REST.
 
@@ -116,5 +119,5 @@ function getCurrentItem(accessToken) {
 
 ## See also
 
-- For an example that calls the REST APIs from an Outlook add-in, see [command-demo](https://github.com/OfficeDev/outlook-add-in-command-demo) on GitHub.
-- Outlook REST APIs are also available through the Microsoft Graph endpoint but there are some key differences, including how your add-in gets an access token. For more information, see [Outlook REST API via Microsoft Graph](/outlook/rest/index#outlook-rest-api-via-microsoft-graph).
+- [Add-in Command sample](https://github.com/OfficeDev/outlook-add-in-command-demo)
+- [Use the Microsoft Graph REST API from an Outlook add-in](microsoft-graph.md)

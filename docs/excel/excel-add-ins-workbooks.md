@@ -1,8 +1,7 @@
 ---
 title: Work with workbooks using the Excel JavaScript API
 description: Learn how to perform common tasks with workbooks or application-level features using the Excel JavaScript API.
-ms.date: 02/17/2022
-ms.prod: excel
+ms.date: 03/26/2024
 ms.localizationpriority: medium
 ---
 
@@ -44,9 +43,9 @@ Your add-in can create a new workbook, separate from the Excel instance in which
 Excel.createWorkbook();
 ```
 
-The `createWorkbook` method can also create a copy of an existing workbook. The method accepts a base64-encoded string representation of an .xlsx file as an optional parameter. The resulting workbook will be a copy of that file, assuming the string argument is a valid .xlsx file.
+The `createWorkbook` method can also create a copy of an existing workbook. The method accepts a Base64-encoded string representation of an .xlsx file as an optional parameter. The resulting workbook will be a copy of that file, assuming the string argument is a valid .xlsx file.
 
-You can get your add-in's current workbook as a base64-encoded string by using [file slicing](/javascript/api/office/office.document#office-office-document-getfileasync-member(1)). The [FileReader](https://developer.mozilla.org/docs/Web/API/FileReader) class can be used to convert a file into the required base64-encoded string, as demonstrated in the following example.
+You can get your add-in's current workbook as a Base64-encoded string by using [file slicing](/javascript/api/office/office.document#office-office-document-getfileasync-member(1)). The [FileReader](https://developer.mozilla.org/docs/Web/API/FileReader) class can be used to convert a file into the required Base64-encoded string, as demonstrated in the following example.
 
 ```js
 // Retrieve the external workbook file and set up a `FileReader` object. 
@@ -55,7 +54,7 @@ let reader = new FileReader();
 
 reader.onload = (function (event) {
     Excel.run(function (context) {
-        // Remove the metadata before the base64-encoded string.
+        // Remove the metadata before the Base64-encoded string.
         let startIndex = reader.result.toString().indexOf("base64,");
         let externalWorkbook = reader.result.toString().substr(startIndex + 7);
 
@@ -64,22 +63,22 @@ reader.onload = (function (event) {
     });
 });
 
-// Read the file as a data URL so we can parse the base64-encoded string.
+// Read the file as a data URL so we can parse the Base64-encoded string.
 reader.readAsDataURL(myFile.files[0]);
 ```
 
 ### Insert a copy of an existing workbook into the current one
 
-The previous example shows a new workbook being created from an existing workbook. You can also copy some or all of an existing workbook into the one currently associated with your add-in. A [Workbook](/javascript/api/excel/excel.workbook) has the `insertWorksheetsFromBase64` method to insert copies of the target workbook's worksheets into itself. The other workbook's file is passed as a base64-encoded string, just like the `Excel.createWorkbook` call.
+The previous example shows a new workbook being created from an existing workbook. You can also copy some or all of an existing workbook into the one currently associated with your add-in. A [Workbook](/javascript/api/excel/excel.workbook) has the `insertWorksheetsFromBase64` method to insert copies of the target workbook's worksheets into itself. The other workbook's file is passed as a Base64-encoded string, just like the `Excel.createWorkbook` call.
 
 ```TypeScript
 insertWorksheetsFromBase64(base64File: string, options?: Excel.InsertWorksheetOptions): OfficeExtension.ClientResult<string[]>;
 ```
 
 > [!IMPORTANT]
-> The `insertWorksheetsFromBase64` method is supported for Excel on Windows, Mac, and the web. It's not supported for iOS. Additionally, in Excel on the web this method doesn't support source worksheets with PivotTable, Chart, Comment, or Slicer elements. If those objects are present, the `insertWorksheetsFromBase64` method returns the `UnsupportedFeature` error in Excel on the web.
+> The `insertWorksheetsFromBase64` method is supported for Excel on the web, on Windows, and on Mac. It's not supported for iOS. Additionally, in Excel on the web, this method doesn't support source worksheets with PivotTable, Chart, Comment, or Slicer elements. If those objects are present, the `insertWorksheetsFromBase64` method returns the `UnsupportedFeature` error in Excel on the web.
 
-The following code sample shows how to insert worksheets from another workbook into the current workbook. This code sample first processes a workbook file with a [`FileReader`](https://developer.mozilla.org/docs/Web/API/FileReader) object and extracts a base64-encoded string, and then it inserts this base64-encoded string into the current workbook. The new worksheets are inserted after the worksheet named **Sheet1**. Note that `[]` is passed as the parameter for the [InsertWorksheetOptions.sheetNamesToInsert](/javascript/api/excel/excel.insertworksheetoptions#excel-excel-insertworksheetoptions-sheetnamestoinsert-member) property. This means that all the worksheets from the target workbook are inserted into the current workbook.
+The following code sample shows how to insert worksheets from another workbook into the current workbook. This code sample first processes a workbook file with a [`FileReader`](https://developer.mozilla.org/docs/Web/API/FileReader) object and extracts a Base64-encoded string, and then it inserts this Base64-encoded string into the current workbook. The new worksheets are inserted after the worksheet named **Sheet1**. Note that `[]` is passed as the parameter for the [InsertWorksheetOptions.sheetNamesToInsert](/javascript/api/excel/excel.insertworksheetoptions#excel-excel-insertworksheetoptions-sheetnamestoinsert-member) property. This means that all the worksheets from the target workbook are inserted into the current workbook.
 
 ```js
 // Retrieve the external workbook file and set up a `FileReader` object. 
@@ -88,7 +87,7 @@ let reader = new FileReader();
 
 reader.onload = (event) => {
     Excel.run((context) => {
-        // Remove the metadata before the base64-encoded string.
+        // Remove the metadata before the Base64-encoded string.
         let startIndex = reader.result.toString().indexOf("base64,");
         let externalWorkbook = reader.result.toString().substr(startIndex + 7);
             
@@ -108,7 +107,7 @@ reader.onload = (event) => {
     });
 };
 
-// Read the file as a data URL so we can parse the base64-encoded string.
+// Read the file as a data URL so we can parse the Base64-encoded string.
 reader.readAsDataURL(myFile.files[0]);
 ```
 
@@ -137,7 +136,7 @@ Protection can also be set at the worksheet level to prevent unwanted data editi
 
 ## Access document properties
 
-Workbook objects have access to the Office file metadata, which is known as the [document properties](https://support.microsoft.com/office/21d604c2-481e-4379-8e54-1dd4622c6b75). The Workbook object's `properties` property is a [DocumentProperties](/javascript/api/excel/excel.documentproperties) object containing these metadata values. The following example shows how to set the `author` property.
+Workbook objects have access to the Office file metadata, which is known as the [document properties](https://support.microsoft.com/office/21d604c2-481e-4379-8e54-1dd4622c6b75). The Workbook object's `properties` property is a [DocumentProperties](/javascript/api/excel/excel.documentproperties) object that contains some of these metadata values. The following example shows how to set the `author` property.
 
 ```js
 await Excel.run(async (context) => {
@@ -147,61 +146,7 @@ await Excel.run(async (context) => {
 });
 ```
 
-### Custom properties
-
-You can also define custom properties. The DocumentProperties object contains a `custom` property that represents a collection of key-value pairs for user-defined properties. The following example shows how to create a custom property named **Introduction** with the value "Hello", then retrieve it.
-
-```js
-await Excel.run(async (context) => {
-    let customDocProperties = context.workbook.properties.custom;
-    customDocProperties.add("Introduction", "Hello");
-    await context.sync();
-});
-
-[...]
-
-await Excel.run(async (context) => {
-    let customDocProperties = context.workbook.properties.custom;
-    let customProperty = customDocProperties.getItem("Introduction");
-    customProperty.load(["key, value"]);
-    await context.sync();
-
-    console.log("Custom key  : " + customProperty.key); // "Introduction"
-    console.log("Custom value : " + customProperty.value); // "Hello"
-});
-```
-
-#### Worksheet-level custom properties
-
-Custom properties can also be set at the worksheet level. These are similar to document-level custom properties, except that the same key can be repeated across different worksheets. The following example shows how to create a custom property named **WorksheetGroup** with the value "Alpha" on the current worksheet, then retrieve it.
-
-```js
-await Excel.run(async (context) => {
-    // Add the custom property.
-    let customWorksheetProperties = context.workbook.worksheets.getActiveWorksheet().customProperties;
-    customWorksheetProperties.add("WorksheetGroup", "Alpha");
-
-    await context.sync();
-});
-
-[...]
-
-await Excel.run(async (context) => {
-    // Load the keys and values of all custom properties in the current worksheet.
-    let worksheet = context.workbook.worksheets.getActiveWorksheet();
-    worksheet.load("name");
-
-    let customWorksheetProperties = worksheet.customProperties;
-    let customWorksheetProperty = customWorksheetProperties.getItem("WorksheetGroup");
-    customWorksheetProperty.load(["key", "value"]);
-
-    await context.sync();
-
-    // Log the WorksheetGroup custom property to the console.
-    console.log(worksheet.name + ": " + customWorksheetProperty.key); // "WorksheetGroup"
-    console.log("  Custom value : " + customWorksheetProperty.value); // "Alpha"
-});
-```
+You can also define custom properties. The DocumentProperties object contains a `custom` property that represents a collection of key-value pairs for user-defined properties. For an example of setting custom properties, see the **Custom XML data in Excel and Word** section of the [Persist add-in state and settings](../develop/persisting-add-in-state-and-settings.md#custom-properties-in-excel-and-word) article.
 
 ## Access document settings
 
@@ -253,52 +198,6 @@ await Excel.run(async (context) => {
     await context.sync();
 });
 ```
-
-## Add custom XML data to the workbook
-
-Excel's Open XML **.xlsx** file format lets your add-in embed custom XML data in the workbook. This data persists with the workbook, independent of the add-in.
-
-A workbook contains a [CustomXmlPartCollection](/javascript/api/excel/excel.customxmlpartcollection), which is a list of [CustomXmlParts](/javascript/api/excel/excel.customxmlpart). These give access to the XML strings and a corresponding unique ID. By storing these IDs as settings, your add-in can maintain the keys to its XML parts between sessions.
-
-The following samples show how to use custom XML parts. The first code block demonstrates how to embed XML data in the document. It stores a list of reviewers, then uses the workbook's settings to save the XML's `id` for future retrieval. The second block shows how to access that XML later. The "ContosoReviewXmlPartId" setting is loaded and passed to the workbook's `customXmlParts`. The XML data is then printed to the console.
-
-```js
-await Excel.run(async (context) => {
-    // Add reviewer data to the document as XML
-    let originalXml = "<Reviewers xmlns='http://schemas.contoso.com/review/1.0'><Reviewer>Juan</Reviewer><Reviewer>Hong</Reviewer><Reviewer>Sally</Reviewer></Reviewers>";
-    let customXmlPart = context.workbook.customXmlParts.add(originalXml);
-    customXmlPart.load("id");
-    await context.sync();
-
-    // Store the XML part's ID in a setting
-    let settings = context.workbook.settings;
-    settings.add("ContosoReviewXmlPartId", customXmlPart.id);
-});
-```
-
-```js
-await Excel.run(async (context) => {
-    // Retrieve the XML part's id from the setting
-    let settings = context.workbook.settings;
-    let xmlPartIDSetting = settings.getItemOrNullObject("ContosoReviewXmlPartId").load("value");
-
-    await context.sync();
-
-    if (xmlPartIDSetting.value) {
-        let customXmlPart = context.workbook.customXmlParts.getItem(xmlPartIDSetting.value);
-        let xmlBlob = customXmlPart.getXml();
-
-        await context.sync();
-
-        // Add spaces to make it more human-readable in the console.
-        let readableXML = xmlBlob.value.replace(/></g, "> <");
-        console.log(readableXML);
-    }
-});
-```
-
-> [!NOTE]
-> `CustomXMLPart.namespaceUri` is only populated if the top-level custom XML element contains the `xmlns` attribute.
 
 ## Control calculation behavior
 

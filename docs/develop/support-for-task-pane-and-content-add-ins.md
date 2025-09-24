@@ -1,15 +1,15 @@
 ---
-title: Office JavaScript API support for content and task pane add-ins in Office 2013
-description: Use the Office JavaScript API to create a task pane in Office 2013.
-ms.date: 07/08/2021
+title: Office JavaScript API support for content and task pane add-ins
+description: Use the Office JavaScript API to create a task pane or content add-in.
+ms.date: 02/12/2025
 ms.localizationpriority: medium
 ---
 
-# Office JavaScript API support for content and task pane add-ins in Office 2013
+# Office JavaScript API support for content and task pane add-ins
 
 [!include[information about the common API](../includes/alert-common-api-info.md)]
 
-You can use the [Office JavaScript API](../reference/javascript-api-for-office.md) to create task pane or content add-ins for Office 2013 client applications. The objects and methods that content and task pane add-ins support are categorized as follows:
+You can use the [Office JavaScript API](../reference/javascript-api-for-office.md) to create task pane or content add-ins for Office client applications. The objects and methods that content and task pane add-ins support are categorized as follows:
 
 1. **Common objects shared with other Office Add-ins.** These objects include [Office](/javascript/api/office), [Context](/javascript/api/office/office.context), and [AsyncResult](/javascript/api/office/office.asyncresult). The `Office` object is the root object of the Office JavaScript API. The `Context` object represents the add-in's runtime environment. Both `Office` and `Context` are the fundamental objects for any Office Add-in. The `AsyncResult` object represents the results of an asynchronous operation, such as the data returned to the `getSelectedDataAsync` method, which reads what a user has selected in a document.
 
@@ -88,9 +88,9 @@ For more details and examples, see [Bind to regions in a document or spreadsheet
 
 If your task pane add-in runs in PowerPoint or Word, you can use the [Document.getFileAsync](/javascript/api/office/office.document#office-office-document-getfileasync-member(1)), [File.getSliceAsync](/javascript/api/office/office.file#office-office-file-getsliceasync-member(1)), and [File.closeAsync](/javascript/api/office/office.file#office-office-file-closeasync-member(1)) methods to get an entire presentation or document.
 
-When you call `Document.getFileAsync` you get a copy of the document in a [File](/javascript/api/office/office.file) object. The `File` object provides access to the document in "chunks" represented as [Slice](/javascript/api/office/office.slice) objects. When you call `getFileAsync`, you can specify the file type (text or compressed Open Office XML format), and size of the slices (up to 4MB). To access the contents of the `File` object, you then call `File.getSliceAsync` which returns the raw data in the [Slice.data](/javascript/api/office/office.slice#office-office-slice-data-member) property. If you specified compressed format, you will get the file data as a byte array. If you are transmitting the file to a web service, you can transform the compressed raw data to a base64-encoded string before submission. Finally, when you are finished getting slices of the file, use the `File.closeAsync` method to close the document.
+When you call `Document.getFileAsync` you get a copy of the document in a [File](/javascript/api/office/office.file) object. The `File` object provides access to the document in "chunks" represented as [Slice](/javascript/api/office/office.slice) objects. When you call `getFileAsync`, you can specify the file type (text or compressed Open Office XML format), and size of the slices (up to 4MB). To access the contents of the `File` object, you then call `File.getSliceAsync` which returns the raw data in the [Slice.data](/javascript/api/office/office.slice#office-office-slice-data-member) property. If you specified compressed format, you will get the file data as a byte array. If you are transmitting the file to a web service, you can transform the compressed raw data to a Base64-encoded string before submission. Finally, when you are finished getting slices of the file, use the `File.closeAsync` method to close the document.
 
-For more details, see how to [get the whole document from an add-in for PowerPoint or Word](../word/get-the-whole-document-from-an-add-in-for-word.md).
+For more details, see how to [get the whole document from an add-in for PowerPoint or Word](../develop/get-the-whole-document-from-an-add-in-for-powerpoint-or-word.md).
 
 ## Read and write custom XML parts of a Word document
 
@@ -118,33 +118,46 @@ Because settings data created or deleted with the `set` and `remove` methods is 
 
 For more details about working with custom data using the methods of the `Settings` object, see [Persisting add-in state and settings](persisting-add-in-state-and-settings.md).
 
-## Read properties of a project document
-
-If your task pane add-in runs in Project, your add-in can read data from some of the project fields, resource, and task fields in the active project. To do that, you use the methods and events of the [ProjectDocument](/javascript/api/office/office.document) object, which extends the `Document` object to provide additional Project-specific functionality.
-
-For examples of reading Project data, see [Create your first task pane add-in for Project 2013 by using a text editor](../project/create-your-first-task-pane-add-in-for-project-by-using-a-text-editor.md).
-
 ## Permissions model and governance
 
-Your add-in uses the `Permissions` element in its manifest to request permission to access the level of functionality it requires from the Office JavaScript API. For example, if your add-in requires read/write access to the document, its manifest must specify `ReadWriteDocument` as the text value in its `Permissions` element. Because permissions exist to protect a user's privacy and security, as a best practice you should request the minimum level of permissions it needs for its features. The following example shows how to request the **ReadDocument** permission in a task pane's manifest.
+Your add-in uses the app manifest to request permission to access the level of functionality it requires from the Office JavaScript API. The method varies depending on the type of manifest.
 
-```XML
-<?xml version="1.0" encoding="utf-8"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xsi:type="TaskPaneApp">
-???<!-- Other manifest elements omitted. -->
-  <Permissions>ReadDocument</Permissions>
-???
-</OfficeApp>
+- **Unified manifest for Microsoft 365**: Use the [`"authorization.permissions.resourceSpecific"`](/microsoft-365/extensibility/schema/root-authorization-permissions#resourcespecific) property. For example, if your add-in requires read/write access to the document, its manifest must specify `Document.ReadWrite.User` as the value in its `"authorization.permissions.resourceSpecific.name"` property. The following example requests the **read document** permission, which allows only methods that can read (but not write to) the document.
 
-```
+   ```json
+   "authorization": {
+      "permissions": {
+        "resourceSpecific": [
+          ...
+          {
+            "name": "Document.Read.User",
+            "type": "Delegated"
+          },
+        ]
+      }
+   },
+   ```
+
+   [!include[Unified manifest host application support note](../includes/unified-manifest-support-note.md)]
+
+- **Add-in only manifest**: Use the `Permissions` element in the manifest  For example, if your add-in requires read/write access to the document, its manifest must specify `ReadWriteDocument` as the text value in its `Permissions` element. Because permissions exist to protect a user's privacy and security, as a best practice you should request the minimum level of permissions it needs for its features. The following example shows how to request the **read document** permission in a task pane's manifest.
+
+    ```XML
+    <?xml version="1.0" encoding="utf-8"?>
+    <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:type="TaskPaneApp">
+        <!-- Other manifest elements omitted. -->
+        <Permissions>ReadDocument</Permissions>
+        ...
+    </OfficeApp>
+    ```
 
 For more information, see [Requesting permissions for API use in add-ins](requesting-permissions-for-api-use-in-content-and-task-pane-add-ins.md).
 
 ## See also
 
 - [Office JavaScript API](../reference/javascript-api-for-office.md)
-- [Schema reference for Office Add-ins manifests](../develop/add-in-manifests.md)
+- [Schema reference for Office Add-ins manifests](/openspecs/office_file_formats/ms-owemxml/c6a06390-34b8-4b42-82eb-b28be12494a8)
 - [Troubleshoot user errors with Office Add-ins](../testing/testing-and-troubleshooting.md)
 - [Runtimes in Office Add-ins](../testing/runtimes.md)

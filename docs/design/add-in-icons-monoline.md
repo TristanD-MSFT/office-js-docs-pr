@@ -1,13 +1,14 @@
 ---
 title: Monoline style icon guidelines for Office Add-ins
 description: Guidelines for using Monoline style icons in Office Add-ins.
-ms.date: 03/30/2021
+ms.date: 02/12/2025
+ms.topic: best-practice
 ms.localizationpriority: medium
 ---
 
 # Monoline style icon guidelines for Office Add-ins
 
-Monoline style iconography are used in Office apps. If you would prefer that your icons match the Fresh style of perpetual Office 2013+, see [Fresh style icon guidelines for Office Add-ins](add-in-icons-fresh.md).
+Monoline style iconography are used in Office apps. If you'd prefer that your icons match the Fresh style of perpetual Office 2016 and later, see [Fresh style icon guidelines for Office Add-ins](add-in-icons-fresh.md).
 
 ## Office Monoline visual style
 
@@ -25,7 +26,7 @@ The following guidelines are for 3rd party developers who want to create icons f
 #### Convey meaning
 
 - Use descriptive elements such as a page to represent a document or an envelope to represent mail.
-- Use the same element to represent the same concept, i.e., mail is always represented by an envelope, not a stamp.
+- Use the same element to represent the same concept. For example, mail is always represented by an envelope, not a stamp.
 - Use a core metaphor during concept development.
 
 #### Reduction of elements
@@ -56,13 +57,13 @@ We recommend that you produce each icon in all these sizes to support high DPI d
 **16 px, 20 px, 24 px, 32 px, 40 px, 48 px, 64 px, 80 px, 96 px**
 
 > [!IMPORTANT]
-> For an image that is your add-in's representative icon, see [Create effective listings in AppSource and within Office](/office/dev/store/create-effective-office-store-listings#create-an-icon-for-your-add-in) for size and other requirements.
+> For an image that is your add-in's representative icon, see [Create effective listings in AppSource and within Office](/partner-center/marketplace-offers/create-effective-office-store-listings#create-an-icon-for-your-add-in) for size and other requirements.
 
 ### Layout
 
 The following is an example of icon layout with a modifier.
 
-![Diagram of icon with modifier in lower right.](../images/monolineicon1.png)  ![Diagram of same icon with added grid background and callouts for the base, modifier, padding, and cutout.](../images/monolineicon2.png)
+![Icon with modifier in lower right.](../images/monolineicon1.png)  ![Same icon with added grid background and callouts for the base, modifier, padding, and cutout.](../images/monolineicon2.png)
 
 #### Elements
 
@@ -70,7 +71,7 @@ The following is an example of icon layout with a modifier.
 
 - **Modifier** Any element that overlays the base; that is, a modifier that typically represents an action or a status. It modifies the base element by acting as an addition, alteration, or a descriptor.
 
-![Diagram of grid with base and modifier areas called out.](../images/monolineicon3.png)
+![Grid with base and modifier areas called out.](../images/monolineicon3.png)
 
 ### Construction
 
@@ -78,21 +79,21 @@ The following is an example of icon layout with a modifier.
 
 Base elements are placed in the center of the icon within the padding. If it can't be placed perfectly centered, then the base should err to the top right. In the following example, the icon is perfectly centered.
 
-![Diagram showing perfectly centered icon.](../images/monolineicon4.png)
+![Perfectly centered icon.](../images/monolineicon4.png)
 
 In the following example, the icon is erring to the left.
 
-![Diagram showing icon that errs to the left by 1 px.](../images/monolineicon5.png)
+![Icon that errs to the left by 1 px.](../images/monolineicon5.png)
 
 Modifiers are almost always placed in the bottom right corner of the icon canvas. In some rare cases, modifiers are placed in a different corner. For example, if the base element would be unrecognizable with the modifier in the bottom right corner, then consider placing it in the upper left corner.
 
-![Diagram showing four icons with the modifier in the lower right, and one icon with the modifier in the upper left.](../images/monolineicon6.png)
+![Four icons with the modifier in the lower right, and one icon with the modifier in the upper left.](../images/monolineicon6.png)
 
 #### Padding
 
 Each size icon has a specified amount of padding around the icon. The base element stays within the padding, but the modifier should butt up to the edge of the canvas, extending outside of the padding to the edge of the icon border. The following images show the recommended padding to use for each of the icon sizes.
 
-|**16px**|**20px**|**24px**|**32px**|**40px**|**48px**|**64px**|**80px**|**96px**|
+|16px|20px|24px|32px|40px|48px|64px|80px|96px|
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 |![16 px icon with 0px padding.](../images/monolineicon7.png)|![20 px icon with 1px padding.](../images/monolineicon8.png)|![24 px icon with 1px padding.](../images/monolineicon9.png)|![32 px icon with 2px padding.](../images/monolineicon10.png)|![40 px icon with 2px padding.](../images/monolineicon11.png)|![48 px icon with 3px padding.](../images/monolineicon12.png)|![64 px icon with 4px padding.](../images/monolineicon13.png)|![80 px icon with 5px padding.](../images/monolineicon14.png)|![96 px icon with 6px padding.](../images/monolineicon15.png)|
 
@@ -109,7 +110,7 @@ Monoline is a style dominated by line and outlined shapes. Depending on what siz
 
 When an icon element is placed on top of another element, a cutout (of the bottom element) is used to provide space between the two elements, mainly for readability purposes. This usually happens when a modifier is placed on top of a base element, but there are also cases where neither of the elements is a modifier. These cutouts between the two elements is sometimes referred to as a "gap".
 
-The size of the gap should be the same width as the line weight used on that size. If making a 16 px icon, the gap width would be 1px and if it is a 48 px icon then the gap should be 2px. The following example shows a 32 px icon with a gap of 1px between the modifier and the underlying base.
+The size of the gap should be the same width as the line weight used on that size. If making a 16 px icon, the gap width would be 1px and if it's a 48 px icon then the gap should be 2px. The following example shows a 32 px icon with a gap of 1px between the modifier and the underlying base.
 
 ![32 px icon with a gap of 1px between the modifier and the underlying base.](../images/monolineicon25.png)
 
@@ -121,13 +122,13 @@ Most icons in the Monoline icon set require background fills. However, there are
 
 ![Compilation of five icons with white fill.](../images/monolineicon26.png)
 
-The following icons have no fill. (The gear icon is included to show that the center hole is not filled.)
+The following icons have no fill. (The gear icon is included to show that the center hole isn't filled.)
 
 ![Compilation of five icons with no fill.](../images/monolineicon27.png)
 
 ##### Best practices for fills
 
-###### Dos
+###### Do
 
 - Fill any element that has a defined boundary, and would naturally have a fill.
 - Use a separate shape to create the background fill.
@@ -135,7 +136,7 @@ The following icons have no fill. (The gear icon is included to show that the ce
 - Maintain the pixel separation between overlapping elements.
 - Fill between multiple objects.
 
-###### Don'ts
+###### Don't
 
 - Don't fill objects that would not naturally be filled; for example, a paperclip.
 - Don't fill brackets.
@@ -176,7 +177,7 @@ Color should be used to convey the meaning of the icon rather than for embellish
 
 ![Compilation of five icons that use color.](../images/monolineicon29.png)
 
-You should limit your icons to **one** additional color, other than the Outline and Fill mentioned above. However, more colors can be used if it is vital for its metaphor, with a limit of two additional colors other than gray. In rare cases, there are exceptions when more colors are needed. The following are good examples of icons that use just one color.
+You should limit your icons to **one** additional color, other than the Outline and Fill mentioned above. However, more colors can be used if it's vital for its metaphor, with a limit of two additional colors other than gray. In rare cases, there are exceptions when more colors are needed. The following are good examples of icons that use just one color.
 
   ![Compilation of five icons that each use one color.](../images/monolineicon30.png)
 
@@ -204,7 +205,13 @@ The final icons should be saved as .png image files. Use PNG format with a trans
 
 ## See also
 
+### Unified manifest reference
+
+- ["extensions.ribbons" array](/microsoft-365/extensibility/schema/extension-ribbons-array)
+
+### Add-in only manifest reference
+
 - [Icon manifest element](/javascript/api/manifest/icon)
 - [IconUrl manifest element](/javascript/api/manifest/iconurl)
 - [HighResolutionIconUrl manifest element](/javascript/api/manifest/highresolutioniconurl)
-- [Create an icon for your add-in](/office/dev/store/create-effective-office-store-listings#create-an-icon-for-your-add-in)
+- [Create an icon for your add-in](/partner-center/marketplace-offers/create-effective-office-store-listings#create-an-icon-for-your-add-in)
